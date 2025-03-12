@@ -1,0 +1,129 @@
+/* Conteneur */
+.container {
+    max-width: 1500px; /* Largeur maximale du conteneur */
+    width: 100%; /* Prend toute la largeur disponible */
+    margin: 0 auto; /* Centrage horizontal */
+    padding: 0 20px; /* Espacement à gauche et à droite */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+  }
+  
+  /* Barre de recherche */
+  .search-bar {
+    display: inline-flex;
+    align-items: center; /* Alignement vertical au centre */
+    gap: 20px; /* Espacement entre les éléments */
+    background-color: #f7d6e0; /* Fond blanc */
+    padding: 12px 35px; /* Espacement intérieur (haut/bas : 12px, gauche/droite : 35px) */
+    border-radius: 12px; /* Coins arrondis */
+    border: 1px solid #e0e0e0; /* Bordure légère */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Ombre plus douce */
+    width: 100%; /* Prend toute la largeur disponible du conteneur */
+    box-sizing: border-box; /* Inclut le padding dans la largeur totale */
+    margin: 20px 0 0; /* Espacement en haut de 20px, pas de marge latérale */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease; /* Transition fluide */
+  }
+  
+  .search-bar:hover {
+    border-color: #8E44AD; /* Violet au survol */
+    box-shadow: 0 6px 15px rgba(142, 68, 173, 0.2); /* Ombre plus prononcée au survol */
+  }
+  
+  /* Style pour la barre de recherche par mot-clé */
+  .search-bar input[type="text"] {
+    padding: 10px 15px;
+    border: 1px solid #e0e0e0; /* Bordure légère */
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333; /* Texte gris foncé */
+    flex: 1; /* Prend l'espace disponible */
+    min-width: 200px; /* Largeur minimale */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .search-bar input[type="text"]:focus {
+    border-color: #8E44AD; /* Violet au focus */
+    box-shadow: 0 0 8px rgba(142, 68, 173, 0.3); /* Effet de focus */
+    outline: none;
+  }
+  
+  /* Style pour les filtres */
+  .filter {
+    display: flex;
+    align-items: center; /* Alignement vertical au centre */
+    gap: 8px; /* Espacement entre le label et le select/input */
+  }
+  
+  .filter label {
+    font-size: 14px;
+    color: #555555; /* Texte gris moyen */
+    font-weight: 600; /* Gras modéré */
+  }
+  
+  .filter select,
+  .filter input[type="date"] {
+    padding: 10px 15px;
+    border: 1px solid #e0e0e0; /* Bordure légère */
+    border-radius: 8px;
+    font-size: 14px;
+    color: #333333; /* Texte gris foncé */
+    background-color: #ffffff; /* Fond blanc */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .filter select:hover,
+  .filter input[type="date"]:hover {
+    border-color: #8E44AD; /* Violet au survol */
+  }
+  
+  .filter select:focus,
+  .filter input[type="date"]:focus {
+    border-color: #8E44AD; /* Violet au focus */
+    box-shadow: 0 0 8px rgba(142, 68, 173, 0.3); /* Effet de focus */
+    outline: none;
+  }
+  
+  /* Style du bouton Rechercher */
+  .search-button {
+    padding: 10px 20px;
+    background-color: #8E44AD; /* Violet (couleur principale) */
+    color: #ffffff; /* Texte blanc */
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600; /* Gras modéré */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+  
+  .search-button:hover {
+    background-color: #732d91; /* Violet plus foncé au survol */
+    transform: translateY(-2px); /* Effet de levée */
+  }
+  
+  .search-button:active {
+    transform: translateY(0); /* Réinitialiser l'effet de levée */
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 10px; /* Espacement réduit à gauche et à droite */
+    }
+  
+    .search-bar {
+      flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
+      gap: 10px; /* Espacement réduit */
+      padding: 10px; /* Espacement intérieur réduit */
+    }
+  
+    .search-bar input[type="text"],
+    .filter select,
+    .filter input[type="date"] {
+      flex: 1 1 100%; /* Pleine largeur sur les petits écrans */
+      min-width: auto; /* Largeur minimale ajustée */
+    }
+  
+    .search-button {
+      flex: 1 1 100%; /* Pleine largeur sur les petits écrans */
+    }
+  }

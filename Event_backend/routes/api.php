@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EvenementController;
 
 
 /*
@@ -22,4 +23,5 @@ Route::prefix('auth')->group(function () {
     Route::post('/verify-email', [AuthController::class, 'verifyEmail']); // Vérification de l'e-mail
     Route::post('/resend-verification-code', [AuthController::class, 'resendVerificationCode']); // Renvoyer le code de vérification
     Route::post('/login', [AuthController::class, 'login']); // Connexion
+    Route::get('/evenements/search', [EvenementController::class, 'search']);
 });

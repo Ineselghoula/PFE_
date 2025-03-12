@@ -1,0 +1,50 @@
+/* Styles pour le carrousel */
+.swiper-container {
+    width: 100%;
+    height: 400px; /* Hauteur du carrousel */
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .swiper-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .slide-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
+    color: #ffffff;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .slide-content h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  
+  .slide-content p {
+    font-size: 1rem;
+  }
+  
+  /* Styles pour la pagination et les boutons de navigation */
+  .swiper-pagination-bullet {
+    background: #ffffff;
+    opacity: 0.5;
+  }
+  
+  .swiper-pagination-bullet-active {
+    background: #8E44AD;
+    opacity: 1;
+  }
+  
+  .swiper-button-next,
+  .swiper-button-prev {
+    color: #8E44AD;
+  }

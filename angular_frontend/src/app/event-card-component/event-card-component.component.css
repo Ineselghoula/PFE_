@@ -1,0 +1,118 @@
+/* Conteneur principal */
+.event-container {
+    display: flex;
+    gap: 20px; /* Espacement entre les cartes */
+    margin-top: 20px;
+  }
+  
+  /* Carte d'événement */
+  .event-card {
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    width: calc(35% - 15px); /* Deux cartes par ligne (50% de largeur moins l'espacement) */
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* En-tête de la carte (date) */
+  .event-header {
+    background-color: #8E44AD;
+    color: #ffffff;
+    padding: 10px 15px;
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+  
+  /* Image de l'événement */
+  .event-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Informations de l'événement */
+  .event-info {
+    padding: 15px;
+    flex: 1;
+  }
+  
+  .event-time {
+    font-size: 0.9rem;
+    color: #888888;
+  }
+  
+  .event-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    color: #2C3E50;
+  }
+  
+  .event-price {
+    font-size: 1.2rem;
+    color: #8E44AD;
+    margin: 5px 0;
+  }
+  
+  .event-location {
+    font-size: 1rem;
+    color: #555555;
+    margin: 5px 0;
+  }
+  
+  .event-date {
+    font-size: 1rem;
+    color: #555555;
+    margin: 5px 0;
+  }
+  
+  .event-description {
+    font-size: 0.9rem;
+    color: #666666;
+    margin: 10px 0;
+  }
+  
+  .event-status {
+    font-size: 0.9rem;
+    color: #555555;
+    margin: 5px 0;
+  }
+  
+  .event-availability {
+    font-size: 0.9rem;
+    color: #555555;
+    margin: 5px 0;
+  }
+  
+  /* Boutons */
+  .event-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .event-button {
+    padding: 10px 20px;
+    background-color: #8E44AD;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    flex: 1;
+  }
+  
+  .event-button:hover {
+    background-color: #732d91;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .event-card {
+      width: 100%; /* Une carte par ligne sur les petits écrans */
+    }
+  }
