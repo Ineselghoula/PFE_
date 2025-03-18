@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EvenementController;
-
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +18,18 @@ use App\Http\Controllers\EvenementController;
 */
 
 // Routes d'authentification
-Route::prefix('auth')->group(function () {
-    Route::post('/register', [AuthController::class, 'register']); // Inscription
-    Route::post('/verify-email', [AuthController::class, 'verifyEmail']); // Vérification de l'e-mail
-    Route::post('/resend-verification-code', [AuthController::class, 'resendVerificationCode']); // Renvoyer le code de vérification
-    Route::post('/login', [AuthController::class, 'login']); // Connexion
-    Route::get('/evenements/search', [EvenementController::class, 'search']);
+Route::middleware('auth:sanctum')->get('/getAllUser',[AuthController::class, 'getAllUser']);
+
+
+Route::post('register', [AuthController::class, 'register']);
+
+Route::post('login', [AuthController::class, 'login']);
+
+Route::prefix('evenements')->group(function () {
+    Route::get('/', [EvenementController::class, 'index']); // Accès via /api/evenements
+    Route::get('/search', [EvenementController::class, 'search']); // Accès via /api/evenements/search
 });
+Route::post('/verify-email', [AuthController::class, 'verifyEmail']);
+Route::post('/resend-verification', [AuthController::class, 'resendVerificationCode']);
+
+Route::middleware('auth:sanctum')->get('getNotifications', [NotificationController::class, 'getNotifications']);

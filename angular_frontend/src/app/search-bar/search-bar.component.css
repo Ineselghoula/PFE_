@@ -12,7 +12,7 @@
     display: inline-flex;
     align-items: center; /* Alignement vertical au centre */
     gap: 20px; /* Espacement entre les éléments */
-    background-color: #f7d6e0; /* Fond blanc */
+    background-color: #f5f0f7; /* Fond blanc */
     padding: 12px 35px; /* Espacement intérieur (haut/bas : 12px, gauche/droite : 35px) */
     border-radius: 12px; /* Coins arrondis */
     border: 1px solid #e0e0e0; /* Bordure légère */

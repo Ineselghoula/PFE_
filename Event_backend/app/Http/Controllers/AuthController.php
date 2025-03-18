@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Notifications\EmailVerificationCode;
-use Illuminate\Http\Request; // Import the Request class
+use Illuminate\Http\Request; 
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use Exception;
 
-class AuthController extends Controller // Ensure the Controller class is imported
+class AuthController extends Controller 
 {
     public function register(Request $request)
     {
@@ -31,8 +30,8 @@ class AuthController extends Controller // Ensure the Controller class is import
             $verificationCode = str_pad(random_int(0, 9999), 4, '0', STR_PAD_LEFT);
             
             $imagePath = $request->hasFile('image') 
-                ? $request->file('image')->store('images', 'public') 
-                : null;
+            ? $request->file('image')->store('images', 'public') 
+            : null;
             
             $user = User::create([
                 'first_name' => $request->first_name,

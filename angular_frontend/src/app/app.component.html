@@ -1,6 +1,12 @@
-<app-navbar></app-navbar> <!-- Utiliser le composant NavbarComponent -->
-<router-outlet></router-outlet> <!-- Pour afficher les vues routées -->
-<app-search-bar></app-search-bar>
-<app-animation-carousel></app-animation-carousel>
-<app-event-card-component></app-event-card-component>
-<app-why-choose-us></app-why-choose-us>
+<div *ngIf="showLayout">
+    <!-- Composants visibles sur toutes les pages sauf login/register -->
+    <app-navbar></app-navbar>
+    <app-search-bar></app-search-bar>
+    <app-animation-carousel></app-animation-carousel>
+    <app-event-card-component></app-event-card-component>
+    <app-why-choose-us></app-why-choose-us>
+  </div>
+  
+  <!-- Routeur pour afficher les pages spécifiques -->
+  <router-outlet></router-outlet>
+  

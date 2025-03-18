@@ -26,12 +26,12 @@ class EmailVerificationCode extends Notification implements ShouldQueue
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Verify Your Email - EventMaster')
-            ->greeting('Hello ' . $notifiable->name . '!')
-            ->line('Welcome to EventMaster! Please use the verification code below to verify your email address.')
-            ->line('Your verification code is: ' . $this->code)
-            ->line('This code will expire in 15 minutes.')
-            ->line('If you did not create an account, no further action is required.');
+            ->subject('Vérifiez votre e-mail - Planova')
+            ->greeting('Bonsoir ' . $notifiable->name . '!')
+            ->line('Bienvenue sur Planova ! Veuillez utiliser le code de vérification ci-dessous pour vérifier votre adresse e-mail.')
+            ->line('Votre code de vérification est : ' . $this->code)
+            ->line('Ce code expirera dans 15 minutes.')
+            ->line('Si vous n\'avez pas créé de compte, aucune action n\'est requise.');
     }
 
     public function toArray($notifiable)

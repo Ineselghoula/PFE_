@@ -1,0 +1,79 @@
+<form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
+  <div>
+    <label for="first_name">Prénom:</label>
+    <input id="first_name" type="text" [(ngModel)]="userData.first_name" name="first_name" required>
+  </div>
+
+  <div>
+    <label for="last_name">Nom:</label>
+    <input id="last_name" type="text" [(ngModel)]="userData.last_name" name="last_name" required>
+  </div>
+
+  <div>
+    <label for="email">Email:</label>
+    <input id="email" type="email" [(ngModel)]="userData.email" name="email" required>
+  </div>
+
+  <div>
+    <label for="phone">Téléphone:</label>
+    <input id="phone" type="text" [(ngModel)]="userData.phone" name="phone">
+  </div>
+
+  <div>
+    <label for="role">Rôle:</label>
+    <select id="role" [(ngModel)]="userData.role" name="role">
+      <option value="participant">Participant</option>
+      <option value="organisateur">Organisateur</option>
+    </select>
+  </div>
+
+  <div *ngIf="userData.role === 'organisateur'">
+    <label for="nom_societe">Nom de la société:</label>
+    <input id="nom_societe" type="text" [(ngModel)]="userData.nom_societe" name="nom_societe">
+  </div>
+
+  <div *ngIf="userData.role === 'organisateur'">
+    <label for="site_web">Site Web:</label>
+    <input id="site_web" type="text" [(ngModel)]="userData.site_web" name="site_web">
+  </div>
+
+  <div *ngIf="userData.role === 'organisateur'">
+    <label for="reseau_social">Réseau Social:</label>
+    <input id="reseau_social" type="text" [(ngModel)]="userData.reseau_social" name="reseau_social">
+  </div>
+
+  <div *ngIf="userData.role === 'organisateur'">
+    <label for="biographie">Biographie:</label>
+    <input id="biographie" type="text" [(ngModel)]="userData.biographie" name="biographie">
+  </div>
+
+  <div *ngIf="userData.role === 'participant'">
+    <label for="date_naissance">Date de naissance:</label>
+    <input id="date_naissance" type="date" [(ngModel)]="userData.date_naissance" name="date_naissance">
+  </div>
+
+  <div *ngIf="userData.role === 'participant'">
+    <label for="adresse">Adresse:</label>
+    <input id="adresse" type="text" [(ngModel)]="userData.adresse" name="adresse">
+  </div>
+
+  <div>
+    <label for="password">Mot de passe:</label>
+    <input id="password" type="password" [(ngModel)]="userData.password" name="password" required>
+  </div>
+
+  <div>
+    <label for="confirmPassword">Confirmer le mot de passe:</label>
+    <input id="confirmPassword" type="password" [(ngModel)]="userData.confirmPassword" name="confirmPassword" required>
+  </div>
+
+  <div>
+    <label for="image">Image:</label>
+    <input type="file" (change)="onFileChange($event)" name="image">
+  </div>
+
+  <button type="submit">S'inscrire</button>
+</form>
+<div *ngIf="successMessage" class="success-message">
+  {{ successMessage }}
+</div>
