@@ -1,79 +1,98 @@
-<form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm">
-  <div>
-    <label for="first_name">Prénom:</label>
-    <input id="first_name" type="text" [(ngModel)]="userData.first_name" name="first_name" required>
-  </div>
+<body>
+  <div class="container">
+    <div class="content">
+      <!-- Formulaire à droite -->
+      <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm" class="needs-validation" novalidate>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="first_name" class="form-label">Prénom:</label>
+            <input id="first_name" type="text" class="form-control" [(ngModel)]="userData.first_name" name="first_name" required autocomplete="given-name">
+            <div *ngIf="registerForm.submitted && !userData.first_name" class="invalid-feedback">Le prénom est requis.</div>
+          </div>
 
-  <div>
-    <label for="last_name">Nom:</label>
-    <input id="last_name" type="text" [(ngModel)]="userData.last_name" name="last_name" required>
-  </div>
+          <div class="col-md-6">
+            <label for="last_name" class="form-label">Nom:</label>
+            <input id="last_name" type="text" class="form-control" [(ngModel)]="userData.last_name" name="last_name" required autocomplete="family-name">
+          </div>
+        </div>
 
-  <div>
-    <label for="email">Email:</label>
-    <input id="email" type="email" [(ngModel)]="userData.email" name="email" required>
-  </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="email" class="form-label">Email:</label>
+            <input id="email" type="email" class="form-control" [(ngModel)]="userData.email" name="email" required autocomplete="email">
+          </div>
 
-  <div>
-    <label for="phone">Téléphone:</label>
-    <input id="phone" type="text" [(ngModel)]="userData.phone" name="phone">
-  </div>
+          <div class="col-md-6">
+            <label for="phone" class="form-label">Téléphone:</label>
+            <input id="phone" type="tel" class="form-control" [(ngModel)]="userData.phone" name="phone" autocomplete="tel">
+          </div>
+        </div>
 
-  <div>
-    <label for="role">Rôle:</label>
-    <select id="role" [(ngModel)]="userData.role" name="role">
-      <option value="participant">Participant</option>
-      <option value="organisateur">Organisateur</option>
-    </select>
-  </div>
+        <div class="mb-3">
+          <label for="role" class="form-label">Rôle:</label>
+          <select id="role" class="form-select" [(ngModel)]="userData.role" name="role">
+            <option value="participant">Participant</option>
+            <option value="organisateur">Organisateur</option>
+          </select>
+        </div>
 
-  <div *ngIf="userData.role === 'organisateur'">
-    <label for="nom_societe">Nom de la société:</label>
-    <input id="nom_societe" type="text" [(ngModel)]="userData.nom_societe" name="nom_societe">
-  </div>
+        <div *ngIf="userData.role === 'organisateur'" class="row">
+          <div class="col-md-6 mb-3">
+            <label for="nom_societe" class="form-label">Nom de la société:</label>
+            <input id="nom_societe" type="text" class="form-control" [(ngModel)]="userData.nom_societe" name="nom_societe">
+          </div>
 
-  <div *ngIf="userData.role === 'organisateur'">
-    <label for="site_web">Site Web:</label>
-    <input id="site_web" type="text" [(ngModel)]="userData.site_web" name="site_web">
-  </div>
+          <div class="col-md-6 mb-3">
+            <label for="site_web" class="form-label">Site Web:</label>
+            <input id="site_web" type="url" class="form-control" [(ngModel)]="userData.site_web" name="site_web" autocomplete="url">
+          </div>
 
-  <div *ngIf="userData.role === 'organisateur'">
-    <label for="reseau_social">Réseau Social:</label>
-    <input id="reseau_social" type="text" [(ngModel)]="userData.reseau_social" name="reseau_social">
-  </div>
+          <div class="col-md-6 mb-3">
+            <label for="reseau_social" class="form-label">Réseau Social:</label>
+            <input id="reseau_social" type="text" class="form-control" [(ngModel)]="userData.reseau_social" name="reseau_social">
+          </div>
 
-  <div *ngIf="userData.role === 'organisateur'">
-    <label for="biographie">Biographie:</label>
-    <input id="biographie" type="text" [(ngModel)]="userData.biographie" name="biographie">
-  </div>
+          <div class="col-md-6 mb-3">
+            <label for="biographie" class="form-label">Biographie:</label>
+            <textarea id="biographie" class="form-control" [(ngModel)]="userData.biographie" name="biographie"></textarea>
+          </div>
+        </div>
 
-  <div *ngIf="userData.role === 'participant'">
-    <label for="date_naissance">Date de naissance:</label>
-    <input id="date_naissance" type="date" [(ngModel)]="userData.date_naissance" name="date_naissance">
-  </div>
+        <div *ngIf="userData.role === 'participant'" class="row">
+          <div class="col-md-6 mb-3">
+            <label for="date_naissance" class="form-label">Date de naissance:</label>
+            <input id="date_naissance" type="date" class="form-control" [(ngModel)]="userData.date_naissance" name="date_naissance">
+          </div>
 
-  <div *ngIf="userData.role === 'participant'">
-    <label for="adresse">Adresse:</label>
-    <input id="adresse" type="text" [(ngModel)]="userData.adresse" name="adresse">
-  </div>
+          <div class="col-md-6 mb-3">
+            <label for="adresse" class="form-label">Adresse:</label>
+            <input id="adresse" type="text" class="form-control" [(ngModel)]="userData.adresse" name="adresse" autocomplete="street-address">
+          </div>
+        </div>
 
-  <div>
-    <label for="password">Mot de passe:</label>
-    <input id="password" type="password" [(ngModel)]="userData.password" name="password" required>
-  </div>
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <label for="password" class="form-label">Mot de passe:</label>
+            <input id="password" type="password" class="form-control" [(ngModel)]="userData.password" name="password" required autocomplete="new-password">
+          </div>
 
-  <div>
-    <label for="confirmPassword">Confirmer le mot de passe:</label>
-    <input id="confirmPassword" type="password" [(ngModel)]="userData.confirmPassword" name="confirmPassword" required>
-  </div>
+          <div class="col-md-6">
+            <label for="confirmPassword" class="form-label">Confirmer le mot de passe:</label>
+            <input id="confirmPassword" type="password" class="form-control" [(ngModel)]="userData.confirmPassword" name="confirmPassword" required autocomplete="new-password">
+          </div>
+        </div>
 
-  <div>
-    <label for="image">Image:</label>
-    <input type="file" (change)="onFileChange($event)" name="image">
-  </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image:</label>
+          <input type="file" class="form-control" (change)="onFileChange($event)" name="image">
+        </div>
 
-  <button type="submit">S'inscrire</button>
-</form>
-<div *ngIf="successMessage" class="success-message">
-  {{ successMessage }}
-</div>
+        <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">S'inscrire</button>
+      </form>
+    </div>
+
+    <!-- Messages de validation -->
+    <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+  </div>
+</body>

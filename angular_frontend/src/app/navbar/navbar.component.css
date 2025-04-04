@@ -1,72 +1,103 @@
 /* Style de base pour la navbar */
 .navbar {
-    background-color: #f5f0f7; /* Couleur de fond */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
-    padding: 1rem 0; /* Espacement intérieur */
-  }
-  
-  /* Conteneur pour aligner les éléments */
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px; /* Largeur maximale */
-    margin: 0 auto; /* Centrer le conteneur */
-    padding: 0 20px; /* Espacement latéral */
-  }
-  
-  /* Conteneur pour le logo et le nom de l'application */
-  .logo-container {
-    display: flex;
-    align-items: center; /* Aligner verticalement le logo et le texte */
-  }
-  
-  /* Style du logo */
-  .logo-container img {
-    height: 40px; /* Hauteur du logo */
-    margin-right: 10px; /* Espacement entre le logo et le texte */
-  }
-  
-  /* Style du nom de l'application */
-  .logo-container .logo {
-    font-size: 1.5rem; /* Taille de la police */
-    font-weight: bold; /* Gras */
-    color: #333333; /* Couleur du texte */
-    text-decoration: none; /* Supprimer le soulignement */
-  }
-  
-  /* Style des liens de navigation */
-  .nav-links {
-    display: flex;
-    list-style: none; /* Supprimer les puces */
-    margin: 0;
-    padding: 0;
-  }
-  
-  .nav-links li {
-    margin-left: 20px; /* Espacement entre les liens */
-  }
-  
-  .nav-link {
-    text-decoration: none; /* Supprimer le soulignement */
-    color: #333333; /* Couleur du texte */
-    font-size: 1rem; /* Taille de la police */
-    transition: color 0.3s ease; /* Transition de couleur */
-  }
-  
-  .nav-link:hover {
-    color: #1d0210; /* Couleur au survol */
-  }
-  
-  /* Style spécifique pour le bouton "S’inscrire" */
-  .sign-up {
-    background-color: #310434; /* Couleur de fond */
-    color: #ffffff; /* Couleur du texte */
-    padding: 0.5rem 1rem; /* Espacement intérieur */
-    border-radius: 5px; /* Bordures arrondies */
-    transition: background-color 0.3s ease; /* Transition de couleur */
-  }
-  
-  .sign-up:hover {
-    background-color: #b442ab; /* Couleur au survol */
-  }
+  background-color: #f5f0f7; /* Couleur de fond */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  padding: 1rem 0; /* Espacement intérieur */
+}
+
+/* Conteneur pour aligner les éléments */
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px; /* Largeur maximale */
+  margin: 0 auto; /* Centrer le conteneur */
+  padding: 0 20px; /* Espacement latéral */
+}
+
+/* Conteneur pour le logo et le nom de l'application */
+.logo-container {
+  display: flex;
+  align-items: center; /* Aligner verticalement le logo et le texte */
+}
+
+/* Style du logo */
+.logo-container img {
+  height: 40px; /* Hauteur du logo */
+  margin-right: 10px; /* Espacement entre le logo et le texte */
+}
+
+/* Style du nom de l'application */
+.logo-container .logo {
+  font-size: 1.5rem; /* Taille de la police */
+  font-weight: bold; /* Gras */
+  color: #333333; /* Couleur du texte */
+  text-decoration: none; /* Supprimer le soulignement */
+}
+
+/* Style des liens de navigation */
+.nav-links {
+  display: flex;
+  list-style: none; /* Supprimer les puces */
+  margin: 0;
+  padding: 0;
+}
+
+.nav-links li {
+  margin-left: 20px; /* Espacement entre les liens */
+}
+
+.nav-link {
+  text-decoration: none; /* Supprimer le soulignement */
+  color: #333333; /* Couleur du texte */
+  font-size: 1rem; /* Taille de la police */
+  transition: color 0.3s ease; /* Transition de couleur */
+}
+
+.nav-link:hover {
+  color: #1d0210; /* Couleur au survol */
+}
+
+/* Style spécifique pour le bouton "S’inscrire" */
+.sign-up {
+  background-color: #310434; /* Couleur de fond */
+  color: #ffffff; /* Couleur du texte */
+  padding: 0.5rem 1rem; /* Espacement intérieur */
+  border-radius: 5px; /* Bordures arrondies */
+  transition: background-color 0.3s ease; /* Transition de couleur */
+}
+
+.sign-up:hover {
+  background-color: #b442ab; /* Couleur au survol */
+}
+
+/* Style pour les icônes utilisateur à droite */
+.user-actions {
+  display: flex;
+  gap: 25px; /* Espacement entre les icônes */
+  align-items: center;
+  margin-left: auto; /* Aligne les icônes à droite */
+  margin-right: 0; /* Assure qu'il n'y a pas d'espacement supplémentaire à droite */
+}
+
+/* Icônes de notification et profil */
+.icon-notification,
+.icon-profile {
+  font-size: 1.5rem; /* Réduire la taille des icônes */
+  color: #333; /* Couleur par défaut */
+  cursor: pointer; /* Pointeur sur survol */
+  transition: color 0.3s ease, transform 0.3s ease; /* Transition douce pour les effets */
+}
+
+/* Effet au survol */
+.icon-notification:hover,
+.icon-profile:hover {
+  color: #b442ab; /* Couleur au survol */
+  transform: scale(1.2); /* Agrandissement au survol */
+}
+
+/* Réduire l'agrandissement au clic */
+.icon-notification:active,
+.icon-profile:active {
+  transform: scale(1); /* Rétablir la taille initiale quand l'icône est pressée */
+}

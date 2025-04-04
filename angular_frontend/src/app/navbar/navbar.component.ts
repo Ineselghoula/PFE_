@@ -1,20 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent {
-  isMenuOpen = false;
-  isAuthenticated = false; // Modifier selon l'état de connexion de l'utilisateur
+export class NavbarComponent implements OnInit {
+  isLoggedIn: boolean = false;
 
-  toggleMenu() {
-    this.isMenuOpen = !this.isMenuOpen;
+  constructor(private authService: AuthService) {}
+
+  ngOnInit(): void {
+    this.authService.isAuthenticated$.subscribe(status => {
+      this.isLoggedIn = status;
+    });
   }
 
-  logout() {
-    this.isAuthenticated = false;
-    console.log('Déconnecté');
+  onLogout(): void {
+    this.authService.logout();
   }
 }

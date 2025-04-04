@@ -1,0 +1,101 @@
+<div class="container" *ngIf="user">
+  <mat-card class="profile-card">
+    <mat-card-header>
+      <div class="profile-header">
+        <div class="avatar-wrapper">
+          <img *ngIf="user.image; else defaultAvatar" [src]="user.image" alt="Avatar" class="avatar" />
+          <ng-template #defaultAvatar>
+            <img src="assets/default-avatar.png" alt="Default Avatar" class="avatar" />
+          </ng-template>
+          <button mat-mini-fab color="primary" class="edit-avatar-btn" aria-label="Modifier avatar">
+            <mat-icon>photo_camera</mat-icon>
+          </button>
+        </div>
+        <div class="user-info">
+          <mat-card-title>{{ user.first_name }} {{ user.last_name }}</mat-card-title>
+          <mat-card-subtitle>
+            <span class="role-badge" [ngClass]="user.role">{{ user.role | titlecase }}</span>
+          </mat-card-subtitle>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <section>
+        <h3>Informations Personnelles</h3>
+
+        <div class="info-row" *ngIf="user.email">
+          <mat-icon>email</mat-icon>
+          <span>{{ user.email }}</span>
+        </div>
+
+        <div class="info-row" *ngIf="user.phone">
+          <mat-icon>phone</mat-icon>
+          <span>{{ user.phone }}</span>
+        </div>
+
+        <div class="info-row" *ngIf="user.date_naissance">
+          <mat-icon>calendar_today</mat-icon>
+          <span>{{ user.date_naissance }}</span>
+        </div>
+
+        <div class="info-row" *ngIf="user.adresse">
+          <mat-icon>location_on</mat-icon>
+          <span>{{ user.adresse }}</span>
+        </div>
+      </section>
+
+      <section *ngIf="user.role === 'organisateur'">
+        <h3>Informations Entreprise</h3>
+
+        <div class="info-row" *ngIf="user.nom_societe">
+          <mat-icon>business</mat-icon>
+          <span>{{ user.nom_societe }}</span>
+        </div>
+
+        <div class="info-row" *ngIf="user.site_web">
+          <mat-icon>public</mat-icon>
+          <a [href]="user.site_web" target="_blank">{{ user.site_web }}</a>
+        </div>
+
+        <div class="info-row" *ngIf="user.reseau_social">
+          <mat-icon>share</mat-icon>
+          <span>{{ user.reseau_social }}</span>
+        </div>
+
+        <div class="info-row" *ngIf="user.biographie">
+          <mat-icon>person</mat-icon>
+          <p class="bio">{{ user.biographie }}</p>
+        </div>
+
+        <div class="info-row">
+          <mat-icon>verified_user</mat-icon>
+          <span>{{ user.is_approved ? 'Approuvé' : 'En attente' }}</span>
+        </div>
+      </section>
+
+      <section *ngIf="user.role === 'admin'">
+        <h3>Informations Administrateur</h3>
+
+        <div class="info-row">
+          <mat-icon>shield</mat-icon>
+          <span>Admin depuis {{ user.admin_since }}</span>
+        </div>
+      </section>
+    </mat-card-content>
+
+    <mat-card-actions class="profile-actions">
+      <button mat-stroked-button color="primary" (click)="editProfile()">
+        <mat-icon>edit</mat-icon> Modifier
+      </button>
+
+      <button mat-stroked-button color="warn" (click)="deleteProfile()">
+        <mat-icon>delete</mat-icon> Supprimer
+      </button>
+
+      <button mat-flat-button color="accent" (click)="logout()">
+        <mat-icon>logout</mat-icon> Déconnexion
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

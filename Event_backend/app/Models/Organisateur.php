@@ -15,6 +15,7 @@ class Organisateur extends Model
         'site_web',
         'reseau_social',
         'biographie',
+        'is_approved'
     ];
 
     /**
@@ -31,6 +32,19 @@ class Organisateur extends Model
     public function notifications() {
         return $this->hasMany(Notification::class);
     }
+
+
+    public function isApproved()
+    {
+        // Si l'utilisateur est un organisateur, vérifiez s'il est approuvé
+        if ($this->role === 'organisateur' && $this->organisateur) {
+            return $this->organisateur->is_approved;
+        }
+    
+        // Pour les autres rôles (admin, participant), considérez qu'ils sont automatiquement approuvés
+        return true;
+    }
 }
+
 
 

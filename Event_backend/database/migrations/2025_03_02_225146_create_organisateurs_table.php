@@ -21,6 +21,7 @@ class CreateOrganisateursTable extends Migration
         $table->string('site_web')->nullable();
         $table->string('reseau_social')->nullable();
         $table->text('biographie')->nullable();
+        $table->boolean('is_approved')->default(false); // pour l'activation des comptes organisateurs par l'admin
         $table->timestamps();
     });
 }

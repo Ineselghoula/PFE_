@@ -1,38 +1,133 @@
-/* Ajoutez vos styles personnalisés ici */
+/* Style général */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #602054; /* Nouvelle couleur */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Centrer verticalement */
+}
 
-/* Exemple de style pour le formulaire */
-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-  
-  label {
-    margin-bottom: 8px;
-  }
-  
-  input, select, button {
+.container {
+  max-width: 500px; /* Largeur réduite du conteneur */
+  width: 100%;
+  padding: 20px;
+}
+
+.content {
+  background-color: #f5f0f753; /* Nouvelle couleur */
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(78, 2, 64, 0.1);
+}
+
+/* Style des champs de formulaire */
+.form-label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+  font-size: 14px; /* Taille de police réduite */
+}
+
+.form-control {
+  width: 100%;
+  padding: 8px; /* Padding réduit */
+  margin-bottom: 10px; /* Espacement réduit */
+  border: 1px solid #a385b9; /* Nouvelle couleur */
+  border-radius: 4px;
+  font-size: 14px; /* Taille de police réduite */
+}
+
+.form-control:focus {
+  border-color: #2d2b3a; /* Nouvelle couleur */
+  outline: none;
+}
+
+.form-select {
+  width: 100%;
+  padding: 8px; /* Padding réduit */
+  margin-bottom: 10px; /* Espacement réduit */
+  border: 1px solid #a385b9; /* Nouvelle couleur */
+  border-radius: 4px;
+  font-size: 14px; /* Taille de police réduite */
+}
+
+.form-select:focus {
+  border-color: #2d2b3a; /* Nouvelle couleur */
+  outline: none;
+}
+
+textarea.form-control {
+  resize: vertical;
+  min-height: 80px; /* Hauteur réduite */
+}
+
+/* Style des boutons */
+.btn-primary {
+  background-color: #a385b9; /* Nouvelle couleur */
+  color: #fff;
+  padding: 8px 16px; /* Padding réduit */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px; /* Taille de police réduite */
+  width: 100%; /* Bouton plein largeur */
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #2d2b3a; /* Nouvelle couleur */
+}
+
+/* Style des messages de validation */
+.alert {
+  padding: 8px; /* Padding réduit */
+  margin-top: 15px; /* Espacement réduit */
+  border-radius: 4px;
+  font-size: 14px; /* Taille de police réduite */
+  text-align: center;
+}
+
+.alert-success {
+  background-color: #f7d6e0; /* Nouvelle couleur */
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+/* Style pour les messages d'erreur de validation */
+.invalid-feedback {
+  color: #dc3545;
+  font-size: 12px; /* Taille de police réduite */
+  margin-top: 5px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
     padding: 10px;
-    margin-bottom: 15px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
   }
-  
-  button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s;
+
+  .content {
+    padding: 15px;
   }
-  
-  button:hover {
-    background-color: #45a049;
+
+  .form-control, .form-select {
+    font-size: 12px; /* Taille de police réduite pour mobile */
   }
-  
-  input[type="file"] {
-    padding: 5px;
+
+  .btn-primary {
+    font-size: 12px; /* Taille de police réduite pour mobile */
   }
-  
+}

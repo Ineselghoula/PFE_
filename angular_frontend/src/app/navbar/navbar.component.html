@@ -6,17 +6,25 @@
       <a href="/" class="logo">Planova</a>
     </div>
 
+    <!-- Icônes utilisateur & notifications si connecté -->
+    <div *ngIf="isLoggedIn" class="user-actions">
+      <i class="fas fa-bell icon-notification"></i>  <!-- Icône de notification -->
+      <a routerLink="/profile" class="icon-profile">
+        <i class="fas fa-user"></i>  <!-- Icône de profil -->
+      </a>
+    </div>
+
     <!-- Liens de navigation -->
-    <ul class="nav-links">
-      <li><a href="/" class="nav-link">Accueil</a></li>
-      <li><a href="" class="nav-link">Nouveautés</a></li>
-      <li><a href="" class="nav-link">Promotions</a></li>
-      <li><a href="" class="nav-link">Événements</a></li>
-      <li><a href="" class="nav-link">Créer événement</a></li>
-      <li><a href="" class="nav-link">Contact</a></li>
+    <ul *ngIf="!isLoggedIn" class="nav-links">
+      <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
+      <li><a href="" class="nav-link"><i class="fas fa-fire"></i> Nouveautés</a></li>
+      <li><a href="" class="nav-link"><i class="fas fa-tags"></i> Promotions</a></li>
+      <li><a href="" class="nav-link"><i class="fas fa-calendar-alt"></i> Événements</a></li>
+      <li><a href="" class="nav-link"><i class="fas fa-plus-circle"></i> Créer événement</a></li>
+      <li><a href="" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
       <ng-container>
-        <li><a routerLink="/login" class="nav-link">Connexion</a></li>
-        <li><a routerLink="/register" class="nav-link sign-up">S’inscrire</a></li>
+        <li><a routerLink="/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
+        <li><a routerLink="/register" class="nav-link sign-up"><i class="fas fa-user-plus"></i> S’inscrire</a></li>
       </ng-container>
     </ul>
   </div>

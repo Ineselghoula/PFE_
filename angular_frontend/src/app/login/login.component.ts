@@ -1,30 +1,35 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  credentials = {
-    email: '',
-    password: '',
-  };
+  loginForm: FormGroup;
+  errorMessage: string = '';
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   onSubmit() {
-    this.authService.login(this.credentials).subscribe(
-      (response) => {
-        localStorage.setItem('access_token', response.access_token);
-        alert('Connexion réussie.');
-        this.router.navigate(['/dashboard']);
-      },
-      (error) => {
-        alert('Erreur lors de la connexion: ' + error.error.message);
-      }
-    );
+    if (this.loginForm.valid) {
+      this.authService.login(this.loginForm.value).subscribe(
+        (response) => {
+          localStorage.setItem('access_token', response.access_token);
+          this.router.navigate(['/dashboard']);
+        },
+        (error) => {
+          this.errorMessage = error.error.message || 'Échec de la connexion. Veuillez réessayer.';
+        }
+      );
+    }
   }
 }

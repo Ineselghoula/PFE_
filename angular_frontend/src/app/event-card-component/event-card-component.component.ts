@@ -5,7 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './event-card-component.component.html',
   styleUrls: ['./event-card-component.component.css']
 })
-export class EventCardComponentComponent implements OnInit {
+export class EventCardComponent implements OnInit {  // Remarque le changement ici
 
   constructor() { }
 
@@ -13,5 +13,3 @@ export class EventCardComponentComponent implements OnInit {
   }
 
 }
-
-

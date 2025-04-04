@@ -1,35 +1,14 @@
-<!-- verify-email.component.html -->
-<div class="verify-email-container">
-  <h2>Vérification de votre Email</h2>
-
-  <div *ngIf="successMessage" class="alert alert-success">
-    {{ successMessage }}
+<form [formGroup]="verifyForm" (ngSubmit)="verifyEmail()">
+  <div>
+    <label for="email">Email :</label>
+    <input id="email" type="email" formControlName="email" />
   </div>
-
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
+  <div>
+    <label for="verification_code">Code de vérification :</label>
+    <input id="verification_code" type="text" formControlName="verification_code" />
   </div>
+  <button type="submit" [disabled]="verifyForm.invalid">Vérifier</button>
+  <p *ngIf="message" class="success">{{ message }}</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+</form>
 
-  <form (ngSubmit)="onSubmit()" #verifyEmailForm="ngForm">
-    <div class="form-group">
-      <label for="code">Code de vérification :</label>
-      <input 
-        type="text" 
-        id="code" 
-        class="form-control" 
-        [(ngModel)]="code" 
-        name="code" 
-        required 
-        placeholder="Entrez le code reçu par e-mail" 
-      />
-    </div>
-
-    <button type="submit" class="btn btn-primary" [disabled]="!verifyEmailForm.valid">
-      Vérifier
-    </button>
-  </form>
-
-  <div class="back-link">
-    <p>Vous n'avez pas reçu le code ? <a routerLink="/resend-verification">Renvoi du code</a></p>
-  </div>
-</div>

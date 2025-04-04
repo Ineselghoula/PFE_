@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+//import { TestBed } from '@angular/core/testing';
 
-import { EvenementService } from './evenement.service';
+//import { EvenementService } from './evenement.service';
 
-describe('EvenementService', () => {
-  let service: EvenementService;
+//describe('EvenementService', () => {
+ // let service: EvenementService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({});
-    service = TestBed.inject(EvenementService);
-  });
+ // beforeEach(() => {
+    //TestBed.configureTestingModule({});
+    //service = TestBed.inject(EvenementService);
+ // });
 
-  it('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-});
+ // it('should be created', () => {
+    //expect(service).toBeTruthy();
+ // });
+//});

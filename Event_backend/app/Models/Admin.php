@@ -9,10 +9,11 @@ class Admin extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
+protected $fillable = ['user_id'];
 
-    public function user() {
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
-
 }
+

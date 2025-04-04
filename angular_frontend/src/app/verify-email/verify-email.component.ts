@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-verify-email',
@@ -8,36 +9,36 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./verify-email.component.css']
 })
 export class VerifyEmailComponent {
-  email: string = '';
-  code: string = '';
-  successMessage: string = '';
-  errorMessage: string = '';
+  verifyForm: FormGroup;
+  message: string = '';
+  error: string = '';
 
-  constructor(
-    private authService: AuthService, 
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
-    // Récupérer l'email de la query string
-    this.route.queryParams.subscribe(params => {
-      this.email = params['email'];
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+    this.verifyForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      verification_code: ['', [Validators.required, Validators.minLength(4), Validators.maxLength(4)]]
     });
   }
 
-  onSubmit() {
-    if (this.email && this.code) {
-      this.authService.verifyEmail(this.email, this.code).subscribe(
-        (response) => {
-          this.successMessage = response.message;
-          this.errorMessage = '';
-          // Rediriger vers la page d'accueil ou dashboard après la vérification
-          this.router.navigate(['/home']);
-        },
-        (error) => {
-          this.errorMessage = error.error.message;
-          this.successMessage = '';
-        }
-      );
+  verifyEmail() {
+    if (this.verifyForm.invalid) {
+      this.error = 'Veuillez remplir tous les champs correctement.';
+      return;
     }
+
+    const { email, verification_code } = this.verifyForm.value;
+
+    this.authService.verifyEmail(email, verification_code).subscribe({
+      next: (response: any) => {
+        this.message = 'Vérification réussie ! Redirection vers la connexion...';
+        this.error = '';
+        setTimeout(() => this.router.navigate(['/login']), 2000);
+      },
+      error: (err) => {
+        console.error('Erreur de vérification:', err);
+        this.error = err.error.message || 'Code invalide ou expiré.';
+        this.message = '';
+      }
+    });
   }
 }

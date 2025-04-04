@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
     "@types/node": "^22.13.10",
     "bootstrap": "^5.3.3",
     "rxjs": "~7.5.0",

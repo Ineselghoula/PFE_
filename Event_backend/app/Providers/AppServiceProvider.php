@@ -13,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(\Lcobucci\JWT\Parser::class, function () {
+            return \Lcobucci\JWT\Configuration::forUnsecuredSigner()->parser();
+        });
     }
 
     /**
@@ -25,4 +27,5 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+    
 }
