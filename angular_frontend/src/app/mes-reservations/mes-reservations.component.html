@@ -1,0 +1,83 @@
+<div class="container py-4">
+  <!-- State messages -->
+  <div *ngIf="state.successMessage" class="alert alert-success alert-dismissible fade show">
+    {{ state.successMessage }}
+    <button type="button" class="btn-close" (click)="dismissSuccessMessage()"></button>
+  </div>
+
+  <div *ngIf="state.error" class="alert alert-danger alert-dismissible fade show">
+    {{ state.error }}
+    <button type="button" class="btn-close" (click)="dismissError()"></button>
+    <button class="btn btn-sm btn-outline-secondary ms-2" (click)="retryLoading()">Réessayer</button>
+  </div>
+
+  <!-- Loading state -->
+  <div *ngIf="state.loading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Chargement...</span>
+    </div>
+    <p>Chargement des réservations...</p>
+  </div>
+
+  <!-- Content -->
+  <ng-container *ngIf="!state.loading && !state.error">
+    <div *ngIf="reservations.length > 0; else noReservations">
+      <div *ngFor="let reservation of reservations" class="card mb-4">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-3">
+              <img [src]="'http://127.0.0.1:8000/storage/' + reservation.evenement.image"
+                   (error)="onImageError($event)"
+                   class="img-fluid rounded"
+                   [alt]="reservation.evenement.titre">
+            </div>
+            <div class="col-md-9">
+              <h5 class="card-title">{{ reservation.evenement.titre }}</h5>
+              <p class="card-text">
+                <strong>Code:</strong> {{ reservation.code_res }}<br>
+                <strong>Date:</strong> {{ reservation.evenement.date_debut | date:'medium' }}<br>
+                <strong>Quantité:</strong> {{ reservation.quantity }}<br>
+              </p>
+              <div class="mt-3">
+                <button class="btn btn-outline-danger me-2"
+                        *ngIf="canCancelReservation(reservation.evenement.date_debut)"
+                        (click)="requestCancel(reservation)">
+                  Annuler
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noReservations>
+      <div class="text-center mt-5">
+        <p>Aucune réservation trouvée.</p>
+      </div>
+    </ng-template>
+  </ng-container>
+</div>
+
+<!-- Cancel confirmation modal -->
+<div class="modal fade" [class.show]="state.showCancelConfirmation" *ngIf="state.showCancelConfirmation">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmer l'annulation</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>Voulez-vous vraiment annuler la réservation <strong>{{ state.selectedReservation?.code_res }}</strong> ?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Non</button>
+        <button type="button" class="btn btn-danger" (click)="cancelReservation()" [disabled]="state.cancelling">
+          <span *ngIf="state.cancelling" class="spinner-border spinner-border-sm me-1"></span>
+          Oui, annuler
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="modal-backdrop fade show"></div>
+</div>

@@ -1,3 +1,8 @@
+
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
 <div class="container" *ngIf="user">
   <mat-card class="profile-card">
     <mat-card-header>
@@ -85,17 +90,18 @@
     </mat-card-content>
 
     <mat-card-actions class="profile-actions">
-      <button mat-stroked-button color="primary" (click)="editProfile()">
+      <button mat-stroked-button color="primary" [routerLink]="['/edit-profile']">
         <mat-icon>edit</mat-icon> Modifier
       </button>
+      
 
-      <button mat-stroked-button color="warn" (click)="deleteProfile()">
+      <button mat-stroked-button color="warn">
         <mat-icon>delete</mat-icon> Supprimer
       </button>
 
       <button mat-flat-button color="accent" (click)="logout()">
         <mat-icon>logout</mat-icon> Déconnexion
-      </button>
+      </button>      
     </mat-card-actions>
   </mat-card>
 </div>

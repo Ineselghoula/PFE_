@@ -40,11 +40,8 @@ class User extends Authenticatable
 
     public function admin()
     {
-        return $this->hasOne(Admin::class); // Note: 'Admin' devrait commencer par une majuscule
+        return $this->hasOne(Admin::class); 
     }
 
-    /**
-     * Vérifie si l'utilisateur est approuvé (actif).
-     */
    
 }

@@ -1,20 +1,25 @@
-<nav class="navbar">
+<nav class="navbar" [class.sidebar-open]="isSidebarOpen">
   <div class="container">
-    <!-- Logo et nom de l'application -->
+    <!-- Conteneur du logo + icône menu + nom -->
     <div class="logo-container">
+      <!-- Icône menu visible seulement si connecté -->
+      <ng-container *ngIf="isLoggedIn">
+        <i class="fas fa-bars menu-icon" (click)="toggleSidebar()"></i>
+      </ng-container>
+
       <img src="../../assets/image/logo-dark.png" alt="Logo">
       <a href="/" class="logo">Planova</a>
     </div>
 
-    <!-- Icônes utilisateur & notifications si connecté -->
+    <!-- Icônes utilisateur -->
     <div *ngIf="isLoggedIn" class="user-actions">
-      <i class="fas fa-bell icon-notification"></i>  <!-- Icône de notification -->
+      <i class="fas fa-bell icon-notification"></i>
       <a routerLink="/profile" class="icon-profile">
-        <i class="fas fa-user"></i>  <!-- Icône de profil -->
+        <i class="fas fa-user"></i>
       </a>
     </div>
 
-    <!-- Liens de navigation -->
+    <!-- Liens de navigation si NON connecté -->
     <ul *ngIf="!isLoggedIn" class="nav-links">
       <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Accueil</a></li>
       <li><a href="" class="nav-link"><i class="fas fa-fire"></i> Nouveautés</a></li>
@@ -24,8 +29,10 @@
       <li><a href="" class="nav-link"><i class="fas fa-envelope"></i> Contact</a></li>
       <ng-container>
         <li><a routerLink="/login" class="nav-link"><i class="fas fa-sign-in-alt"></i> Connexion</a></li>
-        <li><a routerLink="/register" class="nav-link sign-up"><i class="fas fa-user-plus"></i> S’inscrire</a></li>
+        <li><a routerLink="/register" class="nav-link sign-up"><i class="fas fa-user-plus"></i> S'inscrire</a></li>
       </ng-container>
     </ul>
   </div>
 </nav>
+
+<app-sidebar *ngIf="isSidebarOpen" [isOpen]="isSidebarOpen"></app-sidebar>

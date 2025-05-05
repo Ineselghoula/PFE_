@@ -4,31 +4,36 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReservationsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
-{
-    Schema::create('reservations', function (Blueprint $table) {
-        $table->foreignId('participant_id')->constrained('participants');
-        $table->foreignId('evenement_id')->constrained('evenements');
-        $table->date('date_reservation');
-        $table->integer('nbr_participant');
-        $table->primary(['participant_id', 'evenement_id']);
-        $table->timestamps();
+    public function up(): void
+    {Schema::create('reservations', function (Blueprint $table) {
+        $table->id();
+        $table->unsignedBigInteger('evenement_id');
+        $table->unsignedBigInteger('participant_id')->nullable()->change();
+        $table->string('full_name');
+        $table->string('numero_telephone');
+        $table->string('email');
+        $table->integer('quantity');
+        $table->string('code_res')->unique()->nullable();
+       $table->timestamps();
+    
+        // Foreign keys
+        $table->foreign('evenement_id')->references('id')->on('evenements')->onDelete('cascade');
+        $table->foreign('participant_id')->references('id')->on('participants')->onDelete('cascade');
     });
-}
+    
+    }
+
+
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
         Schema::dropIfExists('reservations');
     }
-}
+};

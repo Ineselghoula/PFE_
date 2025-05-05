@@ -1,0 +1,353 @@
+/* Style général */
+.joyful-container {
+  padding: 2rem;
+  background-color: #f8f9fa;
+  min-height: calc(100vh - 120px);
+}
+
+.joyful-title {
+  color: #5e35b1;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+}
+
+.joyful-title i {
+  margin-right: 0.5rem;
+  font-size: 1.3em;
+}
+
+.event-name {
+  font-size: 1rem;
+  background: #ede7f6;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  color: #5e35b1;
+}
+
+/* Cartes principales */
+.events-card,
+.reservations-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  padding: 1.5rem;
+  height: 100%;
+}
+
+/* Barre de recherche */
+.joyful-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.joyful-search:hover {
+  background: #eeeeee;
+}
+
+.joyful-search i {
+  color: #757575;
+  margin-right: 0.5rem;
+}
+
+.joyful-search .form-control {
+  border: none;
+  background: transparent;
+  padding: 0.5rem 0;
+  box-shadow: none;
+  flex: 1;
+}
+
+.joyful-search .form-control:focus {
+  outline: none;
+}
+
+.search-btn {
+  background: none;
+  border: none;
+  color: #5e35b1;
+  padding: 0;
+  cursor: pointer;
+}
+
+/* Timeline des événements */
+.timeline {
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.timeline:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #e0e0e0;
+}
+
+.timeline-group {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.timeline-date {
+  color: #5e35b1;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  position: relative;
+}
+
+.timeline-date:before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #5e35b1;
+  border: 2px solid white;
+}
+
+/* Cartes d'événements */
+.event-card {
+  background: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  border: 1px solid #e0e0e0;
+}
+
+.event-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  border-color: #d1c4e9;
+}
+
+.event-card.selected {
+  border-left: 3px solid #5e35b1;
+  background-color: #f3e5f5;
+}
+
+.event-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #5e35b1;
+  color: white;
+  border-radius: 20px;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.event-badge i {
+  margin-left: 0.25rem;
+  font-size: 0.7em;
+}
+
+.event-card h3 {
+  color: #424242;
+  font-size: 1.1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.event-meta {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  color: #616161;
+}
+
+.event-meta span {
+  display: flex;
+  align-items: center;
+}
+
+.event-meta i {
+  margin-right: 0.25rem;
+  font-size: 0.9em;
+}
+
+.event-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.price {
+  font-weight: 600;
+  color: #5e35b1;
+}
+
+.category {
+  background: #e0e0e0;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: #424242;
+}
+
+/* États vides */
+.empty-state,
+.no-events {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+  text-align: center;
+  color: #757575;
+}
+
+.empty-state img,
+.no-events img {
+  width: 150px;
+  margin-bottom: 1rem;
+  opacity: 0.7;
+}
+
+.empty-state p,
+.no-events p {
+  font-size: 1.1rem;
+}
+
+.loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 0;
+}
+
+.loading-state .spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #5e35b1;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Tableau des réservations */
+.reservation-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.reservation-table thead th {
+  background: #f5f5f5;
+  color: #424242;
+  font-weight: 600;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  position: sticky;
+  top: 0;
+}
+
+.reservation-table tbody tr {
+  transition: all 0.2s ease;
+}
+
+.reservation-table tbody tr:hover {
+  background: #f5f5f5;
+}
+
+.reservation-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
+}
+
+.code-badge {
+  background: #e8f5e9;
+  color: #2e7d32;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.85rem;
+}
+
+/* Pagination */
+.pagination {
+  margin: 0;
+}
+
+.page-link {
+  color: #5e35b1;
+  border: none;
+  margin: 0 0.25rem;
+  border-radius: 4px !important;
+}
+
+.page-item.active .page-link {
+  background: #5e35b1;
+  border-color: #5e35b1;
+}
+
+.page-item.disabled .page-link {
+  color: #bdbdbd;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .joyful-container {
+    padding: 1rem;
+  }
+  
+  .events-card,
+  .reservations-card {
+    padding: 1rem;
+  }
+  
+  .timeline {
+    padding-left: 1rem;
+  }
+  
+  .timeline-date:before {
+    left: -1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .event-meta {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  
+  .reservation-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .empty-state img,
+  .no-events img {
+    width: 120px;
+  }
+}

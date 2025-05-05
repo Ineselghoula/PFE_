@@ -1,0 +1,51 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
+<div class="container">
+  <!-- Chargement -->
+  <div *ngIf="loading" class="loading">Chargement...</div>
+  <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="success">{{ successMessage }}</div>
+
+  <!-- Liste des événements -->
+  <div *ngIf="!loading && events.length > 0" class="event-list">
+    <h2>Événements en attente d'approbation</h2>
+    <ul>
+      <li *ngFor="let event of events" class="event-item">
+        <div *ngIf="event.image" class="card-img-top overflow-hidden" style="height: 200px;">
+          <img 
+            [src]="'http://localhost:8000/storage/' + event.image" 
+            alt="Image de l'événement"
+            class="w-100 h-100 object-fit-cover"
+          >
+        </div>
+        <h4>{{ event.titre }}</h4>
+        <p><strong>Description:</strong> {{ event.description }}</p>
+        <p><strong>Date de début:</strong> {{ event.date_debut | date: 'dd/MM/yyyy HH:mm' }}</p>
+        <p><strong>Date de fin:</strong> {{ event.date_fin | date: 'dd/MM/yyyy HH:mm' }}</p>
+        <p><strong>Heure:</strong> {{ convertTimeToDate(event.temps) | date: 'HH:mm' }}</p>
+        <p><strong>Adresse:</strong> {{ event.adresse }}</p>
+        <p><strong>Prix (TND):</strong> {{ event.prix }}</p>
+        <p><strong>Nombre de places:</strong> {{ event.nbr_place }}</p>
+        <p><strong>État:</strong> {{ event.etat }}</p>
+        <p *ngIf="event.sous_categorie"><strong>Sous-catégorie:</strong> {{ event.sous_categorie.sous_categorie }}</p>
+        <p *ngIf="event.map_link"><strong>Lieu sur la carte:</strong>
+          <a [href]="event.map_link" target="_blank">Voir sur Google Maps</a>
+        </p>
+        
+
+        <!-- Actions -->
+        <div class="actions">
+          <button (click)="approveEvent(event.id)">✅ Approuver</button>
+          <button (click)="rejectEvent(event.id)">❌ Rejeter</button>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Aucun événement -->
+  <div *ngIf="!loading && events.length === 0">
+    <p>Aucun événement en attente d'approbation.</p>
+  </div>
+</div>

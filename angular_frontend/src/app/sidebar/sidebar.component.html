@@ -1,0 +1,24 @@
+<div class="sidebar" [ngClass]="{'open': isOpen}">
+  <ul>
+    <li><a routerLink="/home"><i class="fas fa-home"></i> Accueil</a></li>
+    <li *ngIf="role === 'organisateur'">
+      <a routerLink="/show-evenement"><i class="fas fa-calendar-check"></i> Mes événements</a>
+      <a routerLink="/create-event"><i class="fas fa-calendar-alt"></i> Créer un événement</a>
+      <a routerLink="/liste-reservations"><i class="fas fa-calendar-alt"></i> liste Resevations</a>
+
+    </li>
+    <li *ngIf="role === 'participant'">
+      <a routerLink="/mes-reservations"><i class="fas fa-calendar-check"></i> Mes réservations</a>
+</li>
+
+    <li *ngIf="role === 'admin'">
+      <a routerLink="/approve-organizers"><i class="fas fa-calendar-check"></i>Gestion Organisateur</a>
+      <a routerLink="/approve-events"><i class="fas fa-calendar-check"></i>Approver Evenement </a>
+    </li>
+
+    <li><a routerLink="/promotions"><i class="fas fa-tags"></i> Promotions</a></li>
+    <li><a routerLink="/contact"><i class="fas fa-envelope"></i> Contact</a></li>
+  </ul>
+</div>
+
+<div class="sidebar-overlay" [class.open]="isOpen" (click)="closeSidebar()"></div>

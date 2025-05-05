@@ -1,0 +1,105 @@
+
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
+<div class="container">
+  <h2>Modifier l'événement</h2>
+
+  <form [formGroup]="eventForm" (ngSubmit)="submitForm()">
+    <!-- Titre -->
+    <div class="form-group">
+      <label for="titre">Titre</label>
+      <input type="text" id="titre" formControlName="titre" class="form-control" />
+      <div *ngIf="eventForm.get('titre')?.invalid && eventForm.get('titre')?.touched" class="text-danger">
+        Titre requis.
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" class="form-control"></textarea>
+    </div>
+
+    <!-- Dates -->
+    <div class="form-group">
+      <label for="date_debut">Date de début</label>
+      <input type="date" id="date_debut" formControlName="date_debut" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="date_fin">Date de fin</label>
+      <input type="date" id="date_fin" formControlName="date_fin" class="form-control" />
+    </div>
+
+    <!-- Map -->
+    <div class="form-group">
+      <label for="map_link">Lien Google Map</label>
+      <input type="text" id="map_link" formControlName="map_link" class="form-control" />
+    </div>
+
+    <!-- Prix, Adresse, Temps -->
+    <div class="form-group">
+      <label for="prix">Prix</label>
+      <input type="number" id="prix" formControlName="prix" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="adresse">Adresse</label>
+      <input type="text" id="adresse" formControlName="adresse" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="temps">Temps</label>
+      <input type="text" id="temps" formControlName="temps" class="form-control" />
+    </div>
+    <div class="form-group">
+      <label for="nbr_place">Nombre de places</label>
+      <input type="number" id="nbr_place" formControlName="nbr_place" class="form-control" />
+    </div>
+
+    <!-- Catégories -->
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="categorie">Catégorie:</label>
+        <select id="categorie" (change)="onCategoryChange($event)" class="form-control">
+          <option value="">-- Choisir --</option>
+          <option *ngFor="let c of categories" [value]="c.id">{{ c.type }}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="sous_categorie">Sous-catégorie:</label>
+        <select id="sous_categorie" formControlName="sous_categorie_id" class="form-control">
+          <option value="">-- Choisir --</option>
+          <option *ngFor="let sc of sousCategories" [value]="sc.id">{{ sc.sous_categorie }}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Image -->
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="file" id="image" (change)="onImageChange($event)" class="form-control" />
+      <div *ngIf="previewImage()">
+        <img [src]="previewImage()" alt="Aperçu de l'image" class="img-thumbnail mt-2" style="max-height: 200px;" />
+      </div>
+    </div>
+
+<!-- Message de succès -->
+<div *ngIf="successMessage" class="alert alert-success mt-3">
+  {{ successMessage }}
+</div>
+
+<!-- Messages d'erreur -->
+<div *ngIf="errorMessages && errorMessages.length > 0" class="alert alert-danger mt-3">
+  <div *ngFor="let error of errorMessages">
+    {{ error }}
+  </div>
+</div>
+
+
+    <!-- Boutons -->
+    <div class="form-group mt-3">
+      <button type="submit" class="btn btn-primary" [disabled]="eventForm.invalid">Enregistrer</button>
+      <button type="button" class="btn btn-secondary ml-2" (click)="cancel()">Annuler</button>
+    </div>
+  </form>
+</div>

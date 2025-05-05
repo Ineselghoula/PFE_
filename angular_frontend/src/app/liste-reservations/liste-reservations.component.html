@@ -1,0 +1,122 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<div class="joyful-container">
+  <div class="row g-4">
+    <!-- Colonne des événements -->
+    <div class="col-lg-5">
+      <div class="events-card">
+        <h2 class="joyful-title">
+          <i class="bi bi-calendar2-heart"></i> Mes Événements
+        </h2>
+        
+        <!-- Barre de recherche -->
+        <div class="joyful-search mb-4">
+          <i class="bi bi-search"></i>
+          <input type="text" class="form-control" placeholder="Rechercher un événement..." 
+                 [(ngModel)]="searchTerm" (input)="filterEvents()">
+          <button class="search-btn">
+            <i class="bi bi-arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Groupes par date -->
+        <div class="timeline">
+          <div *ngFor="let group of groupedEvents" class="timeline-group">
+            <div class="timeline-date">{{ group.date | date:'EEEE d MMMM yyyy' | titlecase }}</div>
+            
+            <div *ngFor="let event of group.events" 
+                 class="event-card" 
+                 [class.selected]="selectedEventId === event.id"
+                 (click)="loadReservations(event.id)">
+              <div class="event-badge">{{ event.nbr_place }} <i class="bi bi-ticket-perforated"></i></div>
+              <h3>{{ event.titre }}</h3>
+              <div class="event-meta">
+                <span><i class="bi bi-clock"></i> {{ event.heure_debut }}</span>
+                <span><i class="bi bi-geo-alt"></i> {{ event.adresse }}</span>
+              </div>
+              <div class="event-footer">
+                <span class="price">{{ event.prix }} TND</span>
+                <span class="category">#{{ event.sous_categorie }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="filteredEvents.length === 0" class="no-events">
+          <img src="assets/images/no-events.svg" alt="Aucun événement">
+          <p>Aucun événement trouvé</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Colonne des réservations -->
+    <div class="col-lg-7">
+      <div class="reservations-card">
+        <h2 class="joyful-title">
+          <i class="bi bi-ticket-detailed"></i> Réservations
+          <span *ngIf="selectedEventTitle" class="event-name ms-2">{{ selectedEventTitle }}</span>
+        </h2>
+
+        <div *ngIf="!selectedEventId" class="empty-state">
+          <img src="assets/images/select-event.svg" alt="Sélectionnez un événement">
+          <p>Sélectionnez un événement pour voir les réservations</p>
+        </div>
+
+        <div *ngIf="reservationsLoading" class="loading-state">
+          <div class="spinner"></div>
+          <p>Chargement des réservations...</p>
+        </div>
+
+        <div *ngIf="selectedEventId && reservations.length === 0 && !reservationsLoading" 
+             class="empty-state">
+          <img src="assets/images/no-reservations.svg" alt="Aucune réservation">
+          <p>Aucune réservation pour cet événement</p>
+        </div>
+
+        <div *ngIf="reservations.length > 0">
+          <div class="table-responsive">
+            <table class="reservation-table">
+              <thead>
+                <tr>
+                  <th>Participant</th>
+                  <th>Email</th>
+                  <th>Téléphone</th>
+                  <th>Code Réservation</th>
+                  <th>Quantité</th>
+                  <th>Date Réservation</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let res of paginatedReservations">
+                  <td>{{ res.full_name }}</td>
+                  <td>{{ res.email }}</td>
+                  <td>{{ res.numero_telephone }}</td>
+                  <td><span class="code-badge">{{ res.code_res }}</span></td>
+                  <td><span class="badge bg-light text-dark">{{ res.quantity }}</span></td>
+                  <td class="text-muted small">{{ res.created_at | date:'dd/MM/yyyy HH:mm' }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div *ngIf="reservations.length > itemsPerPage" class="d-flex justify-content-end mt-3">
+            <nav>
+              <ul class="pagination">
+                <li class="page-item" [class.disabled]="currentPage === 1">
+                  <a class="page-link" (click)="currentPage = currentPage - 1">Précédent</a>
+                </li>
+                <li class="page-item" *ngFor="let page of getPageNumbers()" [class.active]="page === currentPage">
+                  <a class="page-link" (click)="currentPage = page">{{ page }}</a>
+                </li>
+                <li class="page-item" [class.disabled]="currentPage * itemsPerPage >= reservations.length">
+                  <a class="page-link" (click)="currentPage = currentPage + 1">Suivant</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

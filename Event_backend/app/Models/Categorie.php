@@ -14,8 +14,8 @@ class Categorie extends Model
         'type'
     ];
 
-    public function evenements()
+    public function sousCategories()
     {
-        return $this->hasMany(Evenement::class, 'id');
+        return $this->hasMany(SousCategorie::class, 'categorie_id');
     }
 }

@@ -370,4 +370,170 @@ public function refreshToken(Request $request)
             ], 500);
         }
     }
+    public function user_update(Request $request)
+{
+    try {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        if (!$user) {
+            return response()->json(['message' => 'Utilisateur non authentifié'], 401);
+        }
+
+        $request->validate([
+            'first_name' => 'nullable|string|max:255',
+            'last_name' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:15',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // participant
+            'date_naissance' => 'nullable|date',
+            'adresse' => 'nullable|string|max:255',
+            // organisateur
+            'nom_societe' => 'nullable|string|max:255',
+            'site_web' => 'nullable|string|max:255',
+            'reseau_social' => 'nullable|string|max:255',
+            'biographie' => 'nullable|string|max:1000',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images', 'public');
+            $user->image = $imagePath;
+        }
+
+        $user->first_name = $request->first_name ?? $user->first_name;
+        $user->last_name = $request->last_name ?? $user->last_name;
+        $user->phone = $request->phone ?? $user->phone;
+        $user->save();
+
+        if ($user->role === 'participant' && $user->participant) {
+            $user->participant->update([
+                'date_naissance' => $request->date_naissance ?? $user->participant->date_naissance,
+                'adresse' => $request->adresse ?? $user->participant->adresse,
+            ]);
+        } elseif ($user->role === 'organisateur' && $user->organisateur) {
+            $user->organisateur->update([
+                'nom_societe' => $request->nom_societe ?? $user->organisateur->nom_societe,
+                'site_web' => $request->site_web ?? $user->organisateur->site_web,
+                'reseau_social' => $request->reseau_social ?? $user->organisateur->reseau_social,
+                'biographie' => $request->biographie ?? $user->organisateur->biographie,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Informations mises à jour avec succès',
+            'user' => $user->load($user->role)
+        ], 200);
+
+    } catch (ValidationException $e) {
+        return response()->json([
+            'message' => 'Erreur de validation',
+            'errors' => $e->errors()
+        ], 422);
+    } catch (Exception $e) {
+        return response()->json([
+            'message' => 'Erreur lors de la mise à jour',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+/**
+ * Get all unapproved organizer accounts
+ */
+public function getUnapprovedOrganizers()
+{
+    try {
+        // Vérifier que l'utilisateur est un admin
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            return response()->json(['message' => 'Accès non autorisé'], 403);
+        }
+
+        // Récupérer les organisateurs non approuvés avec leurs informations utilisateur
+        $unapprovedOrganizers = User::where('role', 'organisateur')
+            ->whereHas('organisateur', function($query) {
+                $query->where('is_approved', false);
+            })
+            ->with('organisateur')
+            ->get()
+            ->map(function($user) {
+                return [
+                    'id' => $user->id,
+                    'first_name' => $user->first_name,
+                    'last_name' => $user->last_name,
+                    'email' => $user->email,
+                    'phone' => $user->phone,
+                    'image' => $user->image ? asset('storage/'.$user->image) : null,
+                    'created_at' => $user->created_at,
+                    'organisateur_info' => [
+                        'nom_societe' => $user->organisateur->nom_societe,
+                        'site_web' => $user->organisateur->site_web,
+                        'reseau_social' => $user->organisateur->reseau_social,
+                        'biographie' => $user->organisateur->biographie,
+                    ]
+                ];
+            });
+
+        return response()->json([
+            'message' => 'Liste des organisateurs non approuvés récupérée avec succès',
+            'organizers' => $unapprovedOrganizers
+        ], 200);
+
+    } catch (Exception $e) {
+        return response()->json([
+            'message' => 'Erreur lors de la récupération des organisateurs non approuvés',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+
+public function rejectOrganizer(User $user)
+{
+    try {
+        if (!Auth::check() || Auth::user()->role !== 'admin') {
+            return response()->json(['message' => 'Accès non autorisé'], 403);
+        }
+
+        if ($user->role !== 'organisateur') {
+            return response()->json(['message' => 'Utilisateur non organisateur'], 400);
+        }
+
+        // Supprimer l'organisateur ou le marquer comme rejeté selon votre logique
+        $user->organisateur()->delete();
+        $user->delete();
+
+        return response()->json(['message' => 'Organisateur refusé avec succès'], 200);
+
+    } catch (Exception $e) {
+        return response()->json([
+            'message' => 'Erreur lors du refus de l\'organisateur',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
+
+/**
+ * Get current user ID
+ */
+public function getUserId()
+{
+    try {
+        $user = Auth::user();
+        
+        if (!$user) {
+            return response()->json(['message' => 'Utilisateur non authentifié'], 401);
+        }
+
+        return response()->json([
+            'message' => 'ID utilisateur récupéré',
+            'user_id' => $user->id
+        ], 200);
+
+    } catch (Exception $e) {
+        return response()->json([
+            'message' => 'Erreur lors de la récupération de l\'ID utilisateur',
+            'error' => $e->getMessage()
+        ], 500);
+    }
+}
 }

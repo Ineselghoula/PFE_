@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -8,45 +8,69 @@ import { AuthService } from '../auth.service';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
-  userData = {
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone: '',
-    role: 'participant',
-    nom_societe: '',
-    site_web: '',
-    reseau_social: '',
-    biographie: '',
-    date_naissance: '',
-    adresse: '',
-    password: '',
-    confirmPassword: '',
-    image: null as File | null,
-  };
+export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
+  successMessage = '';
+  errorMessage = '';
+  isLoading = false;
+  selectedImage: File | null = null;
 
-  successMessage: string = '';
-  errorMessage: string = '';
-  isLoading: boolean = false;
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  constructor(private authService: AuthService, private router: Router) {}
+  ngOnInit(): void {
+    this.registerForm = this.fb.group({
+      first_name: ['', Validators.required],
+      last_name: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [''],
+      role: ['participant', Validators.required],
+      nom_societe: [''],
+      site_web: [''],
+      reseau_social: [''],
+      biographie: [''],
+      date_naissance: [''],
+      adresse: [''],
+      password: ['', [Validators.required, this.strongPasswordValidator()]],
+      confirmPassword: ['', Validators.required],
+    }, { validators: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(group: AbstractControl): ValidationErrors | null {
+    const password = group.get('password')?.value;
+    const confirm = group.get('confirmPassword')?.value;
+    return password === confirm ? null : { mismatch: true };
+  }
+
+  strongPasswordValidator(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (!value) return null;
+
+      const hasUpperCase = /[A-Z]/.test(value);
+      const hasLowerCase = /[a-z]/.test(value);
+      const hasNumber = /[0-9]/.test(value);
+      const hasSpecialChar = /[!@#$%^&*]/.test(value);
+      const isLongEnough = value.length >= 8;
+
+      const valid = hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar && isLongEnough;
+      return valid ? null : { weakPassword: true };
+    };
+  }
 
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input?.files?.length) {
-      this.userData.image = input.files[0];
+      this.selectedImage = input.files[0];
     }
   }
 
-  onSubmit(registerForm: NgForm) {
-    if (registerForm.invalid) {
+  async onSubmit() {
+    if (this.registerForm.invalid) {
       this.errorMessage = 'Veuillez remplir correctement tous les champs.';
-      return;
-    }
-
-    if (this.userData.password !== this.userData.confirmPassword) {
-      this.errorMessage = 'Les mots de passe ne correspondent pas.';
       return;
     }
 
@@ -55,30 +79,25 @@ export class RegisterComponent {
     this.successMessage = '';
 
     const formData = new FormData();
-    Object.entries(this.userData).forEach(([key, value]) => {
-      if (value && key !== 'image') {
-        formData.append(key, value as string);
+    Object.entries(this.registerForm.value).forEach(([key, value]) => {
+      if (value) {
+        formData.append(key, value.toString());
       }
     });
 
-    if (this.userData.image) {
-      formData.append('image', this.userData.image);
+    if (this.selectedImage) {
+      formData.append('image', this.selectedImage);
     }
 
-    this.authService.register(formData).subscribe(
-      () => {
-        this.successMessage = 'Inscription réussie! Un email de vérification a été envoyé.';
-        this.isLoading = false;
-        console.log('Redirection vers /verify-email...');
-        setTimeout(() => {
-          this.router.navigate(['/verify-email']); // ✅ Vérifie que cette ligne s'exécute
-        }, 1500);
-      },
-      (error) => {
-        console.error('Erreur:', error);
-        this.errorMessage = 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.';
-        this.isLoading = false;
-      }
-    );
+    try {
+      await this.authService.register(formData);
+      this.successMessage = 'Inscription réussie ! Un email de vérification a été envoyé.';
+      this.router.navigate(['/verify-email']);
+    } catch (error) {
+      console.error('Erreur:', error);
+      this.errorMessage = 'Une erreur est survenue. Veuillez réessayer.';
+    } finally {
+      this.isLoading = false;
+    }
   }
 }

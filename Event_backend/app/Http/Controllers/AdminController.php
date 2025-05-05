@@ -32,7 +32,7 @@ class AdminController extends Controller
     
             return response()->json($users);
     
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'message' => 'Erreur serveur',
                 'error' => config('app.debug') ? $e->getMessage() : null

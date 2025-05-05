@@ -1,159 +1,38 @@
-<!-- Navbar -->
-<nav class="navbar">
-    <!-- Contenu de la navbar -->
-  </nav>
-  
-  <!-- Barre de recherche -->
-  <div class="search-bar">
-    <!-- Barre de recherche par mot-clé -->
-    <input
-      type="text"
-      placeholder="Rechercher..."
-      [(ngModel)]="searchQuery"
-    />
-  
-    <!-- Filtre Catégorie -->
-    <div class="filter">
-      <label for="category">Catégorie</label>
-      <select id="category" name="category" [(ngModel)]="selectedCategory">
-        <option value="">Toutes les catégories</option>
-    
-        <!-- Art et Culture -->
-        <optgroup label="Art et Culture">
-          <option value="exposition">Exposition d'art</option>
-          <option value="theatre">Théâtre</option>
-          <option value="opera">Opéra</option>
-          <option value="danse">Danse</option>
-          <option value="cirque">Cirque</option>
-          <option value="cinema">Cinéma</option>
-          <option value="litterature">Littérature</option>
-          <option value="poesie">Poésie</option>
-          <option value="club-lecture">Club de lecture</option>
-        </optgroup>
-    
-        <!-- Musique -->
-        <optgroup label="Musique">
-          <option value="concert">Concert</option>
-          <option value="festival-musique">Festival de musique</option>
-          <option value="opera">Opéra</option>
-        </optgroup>
-    
-        <!-- Sport -->
-        <optgroup label="Sport">
-          <option value="sport">Compétition sportive</option>
-          <option value="tournoi">Tournoi</option>
-          <option value="randonnee">Randonnée</option>
-          <option value="camping">Camping</option>
-          <option value="aventure">Aventure</option>
-        </optgroup>
-    
-        <!-- Loisirs -->
-        <optgroup label="Loisirs">
-          <option value="jeux">Jeux</option>
-          <option value="escape-game">Escape game</option>
-          <option value="soiree-jeux">Soirée jeux de société</option>
-          <option value="gaming">Gaming</option>
-          <option value="parc">Parc d'attractions</option>
-          <option value="enfant">Événement pour enfants</option>
-        </optgroup>
-    
-        <!-- Gastronomie -->
-        <optgroup label="Gastronomie">
-          <option value="degustation">Dégustation</option>
-          <option value="cuisine">Atelier de cuisine</option>
-          <option value="gastronomie">Gastronomie</option>
-          <option value="vin">Dégustation de vin</option>
-          <option value="marche">Marché</option>
-        </optgroup>
-    
-        <!-- Éducation et Professionnel -->
-        <optgroup label="Éducation et Professionnel">
-          <option value="conference">Conférence</option>
-          <option value="formation">Formation</option>
-          <option value="webinaire">Webinaire</option>
-          <option value="salon">Salon professionnel</option>
-          <option value="networking">Networking</option>
-          <option value="lancement">Lancement de produit</option>
-          <option value="hackathon">Hackathon</option>
-          <option value="innovation">Innovation</option>
-        </optgroup>
-    
-        <!-- Bien-être -->
-        <optgroup label="Bien-être">
-          <option value="bien-etre">Bien-être</option>
-          <option value="yoga">Yoga</option>
-          <option value="meditation">Méditation</option>
-          <option value="spa">Spa</option>
-          <option value="retraite">Retraite spirituelle</option>
-        </optgroup>
-    
-        <!-- Mode et Beauté -->
-        <optgroup label="Mode et Beauté">
-          <option value="mode">Mode</option>
-          <option value="defile">Défilé de mode</option>
-          <option value="beaute">Beauté</option>
-          <option value="maquillage">Maquillage</option>
-          <option value="fashion-week">Fashion Week</option>
-        </optgroup>
-    
-        <!-- Science et Technologie -->
-        <optgroup label="Science et Technologie">
-          <option value="science">Science</option>
-          <option value="technologie">Technologie</option>
-          <option value="hackathon">Hackathon</option>
-          <option value="innovation">Innovation</option>
-        </optgroup>
-    
-        <!-- Nature et Voyage -->
-        <optgroup label="Nature et Voyage">
-          <option value="nature">Nature</option>
-          <option value="randonnee">Randonnée</option>
-          <option value="camping">Camping</option>
-          <option value="voyage">Voyage</option>
-          <option value="aventure">Aventure</option>
-        </optgroup>
-    
-        <!-- Communautaire et Social -->
-        <optgroup label="Communautaire et Social">
-          <option value="communautaire">Communautaire</option>
-          <option value="quartier">Fête de quartier</option>
-          <option value="charite">Charité</option>
-          <option value="collecte">Collecte de fonds</option>
-          <option value="caritatif">Événement caritatif</option>
-        </optgroup>
-    
-        <!-- Autre -->
-        <optgroup label="Autre">
-          <option value="autre">Autre</option>
-        </optgroup>
-      </select>
-    </div>
-  
-    <!-- Filtre Région -->
-    <div class="filter">
-      <label for="region">Région</label>
-      <select id="region" name="region" [(ngModel)]="selectedRegion">
-        <option value="">Toutes les régions</option>
-       <option *ngFor="let region of regions" [value]="region.value">{{region.label}}</option>
-      </select>
-    </div>
-  
-    <!-- Filtre Date d'événement -->
-    <div class="filter">
-      <label for="event-date">Date d'événement</label>
-      <input type="date" id="event-date" name="event-date" [(ngModel)]="selectedDate">
-    </div>
-  
-    <!-- Bouton Rechercher -->
-    <button class="search-button" (click)="onSearch()">Rechercher</button>
-    
-    <!-- Affichage des résultats -->
-<div *ngIf="events.length > 0">
-  <h2>Résultats de la recherche</h2>
-  <ul>
-    <li *ngFor="let event of events">
-      {{ event.titre }} - {{ event.date_debut }} - {{ event.region }}
-    </li>
-  </ul>
-</div>
+<div class="container">
+  <!-- Alerte si vide -->
+  <div *ngIf="showEmptySearchWarning" class="alert alert-warning" role="alert">
+    Veuillez remplir au moins un champ pour effectuer une recherche.
   </div>
+
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-bar">
+    <input type="text" formControlName="titre" placeholder="Rechercher par mot-clé..." class="search-input" />
+
+    <div class="filter">
+      <label for="date_debut">Date début:</label>
+      <input type="date" formControlName="date_debut" id="date_debut" />
+    </div>
+
+    <div class="filter">
+      <label for="date_fin">Date fin:</label>
+      <input type="date" formControlName="date_fin" id="date_fin" />
+    </div>
+
+    <div class="filter">
+      <label for="categorie">Catégorie:</label>
+      <select id="categorie" formControlName="categorie_id" (change)="onCategoryChange($event)">
+        <option value="">Toutes</option>
+        <option *ngFor="let c of categories" [value]="c.id">{{ c.type }}</option>
+      </select>
+    </div>
+
+    <div class="filter">
+      <label for="sous_categorie">Sous-catégorie:</label>
+      <select id="sous_categorie" formControlName="sous_categorie_id">
+        <option value="">Toutes</option>
+        <option *ngFor="let sc of sousCategories" [value]="sc.id">{{ sc.sous_categorie }}</option>
+      </select>
+    </div>
+
+    <button type="submit" class="search-button">Rechercher</button>
+  </form>
+</div>

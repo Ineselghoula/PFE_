@@ -9,6 +9,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class AppComponent {
   title = 'angular_frontend';
   showLayout: boolean = true;
+  showAllEvents: boolean = true;
 
   constructor(private router: Router) {
     this.router.events.subscribe((event) => {
@@ -17,10 +18,27 @@ export class AppComponent {
           this.router.url.includes('/login') || 
           this.router.url.includes('/register') || 
           this.router.url.includes('/verify-email') ||
-          this.router.url.includes('/profile')  
+          this.router.url.includes('/profile') ||
+          this.router.url.includes('/logout') ||
+          this.router.url.includes('/edit-profile') ||
+          this.router.url.includes('/create-event') ||
+          this.router.url.includes('/show-evenement') ||
+          this.router.url.includes('/update-event') ||
+          this.router.url.includes('/approve-organizers') ||
+          this.router.url.includes('/approve-events') ||
+          this.router.url.includes('/resrve-event')||
+          this.router.url.includes('/reservation-list') ||
+          this.router.url.includes('/organisateur-reservations')||
+          this.router.url.includes('/liste-reservations') ||
+          this.router.url.includes('/mes-reservations')
 
         );
+        
+        if (this.router.url === '/') {
+          this.showAllEvents = true;
+        }
       }
     });
   }
+
 }

@@ -1,0 +1,104 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
+<div class="container">
+  <h2>Créer un événement</h2>
+
+  <form [formGroup]="eventForm" (ngSubmit)="submitForm()" enctype="multipart/form-data">
+    <!-- Messages d'état -->
+    <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+    <!-- Champ Titre -->
+    <div class="form-group">
+      <label for="titre">Titre:</label>
+      <input id="titre" formControlName="titre" type="text" class="form-control" />
+      <div *ngIf="errorMessages.titre" class="error-message">{{ errorMessages.titre[0] }}</div>
+    </div>
+
+    <!-- Champ Description -->
+    <div class="form-group">
+      <label for="description">Description:</label>
+      <textarea id="description" formControlName="description" class="form-control"></textarea>
+      <div *ngIf="errorMessages.description" class="error-message">{{ errorMessages.description[0] }}</div>
+    </div>
+
+    <!-- Dates -->
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="date_debut">Date de début:</label>
+        <input id="date_debut" type="date" formControlName="date_debut" class="form-control" />
+      </div>
+      <div class="form-group col-md-6">
+        <label for="date_fin">Date de fin:</label>
+        <input id="date_fin" type="date" formControlName="date_fin" class="form-control" />
+      </div>
+    </div>
+
+    <!-- Image -->
+    <div class="form-group">
+      <label for="image">Image:</label>
+      <input id="image" type="file" (change)="onFileChange($event)" class="form-control" />
+      <div *ngIf="errorMessages.image" class="error-message">{{ errorMessages.image[0] }}</div>
+    </div>
+
+    <!-- Google Maps Link -->
+    <div class="form-group">
+      <label for="map_link">Google Maps Link:</label>
+      <input id="map_link" type="url" formControlName="map_link" class="form-control" />
+    </div>
+
+    <!-- Prix -->
+    <div class="form-group">
+      <label for="prix">Prix(TND):</label>
+      <input id="prix" type="number" formControlName="prix" class="form-control" />
+    </div>
+
+    <!-- Adresse -->
+    <div class="form-group">
+      <label for="adresse">Adresse:</label>
+      <input id="adresse" type="text" formControlName="adresse" class="form-control" />
+    </div>
+
+    <!-- Temps -->
+    <div class="form-group">
+      <label for="temps">Temps (ex: 18:00):</label>
+      <input id="temps" type="time" formControlName="temps" class="form-control" />
+    </div>
+
+    <div>
+      <label for="form-group">État</label>
+      <input id="etat" formControlName="etat"  class="form-control" />
+    </div>
+
+    <!-- Nombre de places -->
+    <div class="form-group">
+      <label for="nbr_place">Nombre de places:</label>
+      <input id="nbr_place" type="number" formControlName="nbr_place" class="form-control" />
+    </div>
+
+    <!-- Catégories -->
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="categorie">Catégorie:</label>
+        <select id="categorie" (change)="onCategoryChange($event)" class="form-control">
+          <option value="">-- Choisir --</option>
+          <option *ngFor="let c of categories" [value]="c.id">{{ c.type }}</option>
+        </select>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="sous_categorie">Sous-catégorie:</label>
+        <select id="sous_categorie" formControlName="sous_categorie_id" class="form-control">
+          <option value="">-- Choisir --</option>
+          <option *ngFor="let sc of sousCategories" [value]="sc.id">{{ sc.sous_categorie }}</option>
+        </select>
+      </div> 
+    </div>
+
+    <!-- Boutons -->
+    <div class="form-actions">
+      <button type="submit" [disabled]="eventForm.invalid" class="btn btn-primary">Créer</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Annuler</button>
+    </div>
+  </form>
+</div>

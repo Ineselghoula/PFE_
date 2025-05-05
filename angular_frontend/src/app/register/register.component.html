@@ -1,98 +1,94 @@
-<body>
-  <div class="container">
-    <div class="content">
-      <!-- Formulaire à droite -->
-      <form (ngSubmit)="onSubmit(registerForm)" #registerForm="ngForm" class="needs-validation" novalidate>
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="first_name" class="form-label">Prénom:</label>
-            <input id="first_name" type="text" class="form-control" [(ngModel)]="userData.first_name" name="first_name" required autocomplete="given-name">
-            <div *ngIf="registerForm.submitted && !userData.first_name" class="invalid-feedback">Le prénom est requis.</div>
-          </div>
-
-          <div class="col-md-6">
-            <label for="last_name" class="form-label">Nom:</label>
-            <input id="last_name" type="text" class="form-control" [(ngModel)]="userData.last_name" name="last_name" required autocomplete="family-name">
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="email" class="form-label">Email:</label>
-            <input id="email" type="email" class="form-control" [(ngModel)]="userData.email" name="email" required autocomplete="email">
-          </div>
-
-          <div class="col-md-6">
-            <label for="phone" class="form-label">Téléphone:</label>
-            <input id="phone" type="tel" class="form-control" [(ngModel)]="userData.phone" name="phone" autocomplete="tel">
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="role" class="form-label">Rôle:</label>
-          <select id="role" class="form-select" [(ngModel)]="userData.role" name="role">
-            <option value="participant">Participant</option>
-            <option value="organisateur">Organisateur</option>
-          </select>
-        </div>
-
-        <div *ngIf="userData.role === 'organisateur'" class="row">
-          <div class="col-md-6 mb-3">
-            <label for="nom_societe" class="form-label">Nom de la société:</label>
-            <input id="nom_societe" type="text" class="form-control" [(ngModel)]="userData.nom_societe" name="nom_societe">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="site_web" class="form-label">Site Web:</label>
-            <input id="site_web" type="url" class="form-control" [(ngModel)]="userData.site_web" name="site_web" autocomplete="url">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="reseau_social" class="form-label">Réseau Social:</label>
-            <input id="reseau_social" type="text" class="form-control" [(ngModel)]="userData.reseau_social" name="reseau_social">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="biographie" class="form-label">Biographie:</label>
-            <textarea id="biographie" class="form-control" [(ngModel)]="userData.biographie" name="biographie"></textarea>
-          </div>
-        </div>
-
-        <div *ngIf="userData.role === 'participant'" class="row">
-          <div class="col-md-6 mb-3">
-            <label for="date_naissance" class="form-label">Date de naissance:</label>
-            <input id="date_naissance" type="date" class="form-control" [(ngModel)]="userData.date_naissance" name="date_naissance">
-          </div>
-
-          <div class="col-md-6 mb-3">
-            <label for="adresse" class="form-label">Adresse:</label>
-            <input id="adresse" type="text" class="form-control" [(ngModel)]="userData.adresse" name="adresse" autocomplete="street-address">
-          </div>
-        </div>
-
-        <div class="row mb-3">
-          <div class="col-md-6">
-            <label for="password" class="form-label">Mot de passe:</label>
-            <input id="password" type="password" class="form-control" [(ngModel)]="userData.password" name="password" required autocomplete="new-password">
-          </div>
-
-          <div class="col-md-6">
-            <label for="confirmPassword" class="form-label">Confirmer le mot de passe:</label>
-            <input id="confirmPassword" type="password" class="form-control" [(ngModel)]="userData.confirmPassword" name="confirmPassword" required autocomplete="new-password">
-          </div>
-        </div>
-
-        <div class="mb-3">
-          <label for="image" class="form-label">Image:</label>
-          <input type="file" class="form-control" (change)="onFileChange($event)" name="image">
-        </div>
-
-        <button type="submit" class="btn btn-primary" [disabled]="!registerForm.valid">S'inscrire</button>
-      </form>
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label>Prénom</label>
+      <input class="form-control" formControlName="first_name" />
+      <div *ngIf="registerForm.get('first_name')?.invalid && registerForm.get('first_name')?.touched" class="text-danger">
+        Prénom requis.
+      </div>
     </div>
 
-    <!-- Messages de validation -->
-    <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
-    <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+    <div class="col-md-6">
+      <label>Nom</label>
+      <input class="form-control" formControlName="last_name" />
+      <div *ngIf="registerForm.get('last_name')?.invalid && registerForm.get('last_name')?.touched" class="text-danger">
+        Nom requis.
+      </div>
+    </div>
   </div>
-</body>
+
+  <div class="mb-3">
+    <label>Email</label>
+    <input type="email" class="form-control" formControlName="email" />
+    <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-danger">
+      Email invalide.
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label>Téléphone</label>
+    <input class="form-control" formControlName="phone" />
+  </div>
+
+  <div class="mb-3">
+    <label>Rôle</label>
+    <select class="form-select" formControlName="role">
+      <option value="participant">Participant</option>
+      <option value="organisateur">Organisateur</option>
+    </select>
+  </div>
+
+  <!-- Champs Organisateur -->
+  <div *ngIf="registerForm.get('role')?.value === 'organisateur'" class="mb-3">
+    <label>Nom de la société</label>
+    <input class="form-control" formControlName="nom_societe" />
+
+    <label>Site Web</label>
+    <input class="form-control" formControlName="site_web" />
+
+    <label>Réseau Social</label>
+    <input class="form-control" formControlName="reseau_social" />
+
+    <label>Biographie</label>
+    <textarea class="form-control" formControlName="biographie"></textarea>
+  </div>
+
+  <!-- Champs Participant -->
+  <div *ngIf="registerForm.get('role')?.value === 'participant'" class="mb-3">
+    <label>Date de naissance</label>
+    <input type="date" class="form-control" formControlName="date_naissance" />
+
+    <label>Adresse</label>
+    <input class="form-control" formControlName="adresse" />
+  </div>
+
+  <div class="row mb-3">
+    <div class="col-md-6">
+      <label>Mot de passe</label>
+      <input type="password" class="form-control" formControlName="password" />
+      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['weakPassword']" class="text-danger">
+        Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <label>Confirmer le mot de passe</label>
+      <input type="password" class="form-control" formControlName="confirmPassword" />
+      <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched" class="text-danger">
+        Les mots de passe ne correspondent pas.
+      </div>
+    </div>
+  </div>
+
+  <div class="mb-3">
+    <label>Image de profil</label>
+    <input type="file" class="form-control" (change)="onFileChange($event)" />
+  </div>
+
+  <button class="btn btn-primary" type="submit" [disabled]="registerForm.invalid || isLoading">
+    {{ isLoading ? 'Chargement...' : 'S\'inscrire' }}
+  </button>
+
+  <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
+</form>

@@ -1,0 +1,72 @@
+
+<div class="container" *ngIf="user && profileForm">
+  <mat-card>
+    <mat-card-title>Modifier le Profil</mat-card-title>
+    <mat-card-content>
+      <form [formGroup]="profileForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+
+        <!-- Image -->
+        <div class="image-upload">
+          <img [src]="imagePreview || 'assets/default-avatar.png'" class="avatar-preview" />
+          <input type="file" (change)="onImageChange($event)" />
+        </div>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Prénom</mat-label>
+          <input matInput formControlName="first_name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Nom</mat-label>
+          <input matInput formControlName="last_name" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Téléphone</mat-label>
+          <input matInput formControlName="phone" />
+        </mat-form-field>
+
+        <!-- PARTICIPANT -->
+        <ng-container *ngIf="user.role === 'participant'">
+          <mat-form-field appearance="fill">
+            <mat-label>Date de naissance</mat-label>
+            <input matInput formControlName="date_naissance" type="date" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Adresse</mat-label>
+            <input matInput formControlName="adresse" />
+          </mat-form-field>
+        </ng-container>
+
+        <!-- ORGANISATEUR -->
+        <ng-container *ngIf="user.role === 'organisateur'">
+          <mat-form-field appearance="fill">
+            <mat-label>Nom de la société</mat-label>
+            <input matInput formControlName="nom_societe" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Site web</mat-label>
+            <input matInput formControlName="site_web" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Réseau social</mat-label>
+            <input matInput formControlName="reseau_social" />
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Biographie</mat-label>
+            <textarea matInput formControlName="biographie" rows="3"></textarea>
+          </mat-form-field>
+        </ng-container>
+
+        <div class="actions">
+          <button mat-stroked-button type="button" (click)="onCancel()">Annuler</button>
+          <button mat-flat-button color="primary" type="submit">Enregistrer</button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

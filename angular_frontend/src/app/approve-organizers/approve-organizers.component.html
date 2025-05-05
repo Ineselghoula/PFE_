@@ -1,0 +1,46 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<div class="approve-container">
+  <h2>Gestion des Organisateurs</h2>
+
+  <div *ngIf="message" class="message-box" [class.success]="message.includes('approuvé')" 
+       [class.error]="message.includes('refusé') || message.includes('Erreur')">
+    {{ message }}
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="organizers-list">
+    <h3>Demandes d'approbation</h3>
+    
+    <div *ngIf="unapprovedOrganizers.length === 0 && !loading" class="empty-state">
+      Aucune demande en attente
+    </div>
+
+    <div class="organizer-card" *ngFor="let organizer of unapprovedOrganizers">
+      <div class="organizer-info">
+        <div class="organizer-image">
+          <img [src]="organizer.image || 'assets/default-user.png'" alt="Photo de profil">
+        </div>
+        <div class="organizer-details">
+          <h4>{{ organizer.first_name }} {{ organizer.last_name }}</h4>
+          <p><strong>Email:</strong> {{ organizer.email }}</p>
+          <p><strong>Téléphone:</strong> {{ organizer.phone || 'Non renseigné' }}</p>
+          <p><strong>Société:</strong> {{ organizer.organisateur_info?.nom_societe }}</p>
+          <p><strong>Site web:</strong> {{ organizer.organisateur_info?.site_web || 'Non renseigné' }}</p>
+        </div>
+      </div>
+      <div class="organizer-actions">
+        <button (click)="approveOrganizer(organizer.id)" class="approve-btn">
+          Approuver
+        </button>
+        <button (click)="rejectOrganizer(organizer.id)" class="reject-btn">
+          Refuser
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

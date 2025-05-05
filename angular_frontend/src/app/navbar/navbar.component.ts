@@ -7,7 +7,8 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  isLoggedIn: boolean = false;
+  isLoggedIn: boolean = true;
+  isSidebarOpen = false;
 
   constructor(private authService: AuthService) {}
 
@@ -18,6 +19,11 @@ export class NavbarComponent implements OnInit {
   }
 
   onLogout(): void {
-    this.authService.logout();
+   this.authService.logout();
   }
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    console.log('Sidebar is open:', this.isSidebarOpen); 
+  }
+  
 }

@@ -1,133 +1,134 @@
-/* Style général */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #602054; /* Nouvelle couleur */
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Centrer verticalement */
+/* Style général du formulaire */
+form {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-.container {
-  max-width: 500px; /* Largeur réduite du conteneur */
-  width: 100%;
-  padding: 20px;
-}
-
-.content {
-  background-color: #f5f0f753; /* Nouvelle couleur */
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(78, 2, 64, 0.1);
-}
-
-/* Style des champs de formulaire */
-.form-label {
-  font-weight: bold;
-  margin-bottom: 5px;
+/* Titres des champs */
+label {
   display: block;
-  font-size: 14px; /* Taille de police réduite */
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #2d3748;
+  font-size: 0.95rem;
 }
 
-.form-control {
+/* Champs de formulaire */
+.form-control, .form-select {
   width: 100%;
-  padding: 8px; /* Padding réduit */
-  margin-bottom: 10px; /* Espacement réduit */
-  border: 1px solid #a385b9; /* Nouvelle couleur */
-  border-radius: 4px;
-  font-size: 14px; /* Taille de police réduite */
+  padding: 0.75rem 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  background-color: #f8fafc;
+  margin-bottom: 1.25rem;
 }
 
-.form-control:focus {
-  border-color: #2d2b3a; /* Nouvelle couleur */
+.form-control:focus, .form-select:focus {
   outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+  background-color: white;
 }
 
-.form-select {
-  width: 100%;
-  padding: 8px; /* Padding réduit */
-  margin-bottom: 10px; /* Espacement réduit */
-  border: 1px solid #a385b9; /* Nouvelle couleur */
-  border-radius: 4px;
-  font-size: 14px; /* Taille de police réduite */
+/* Messages d'erreur */
+.text-danger {
+  display: block;
+  margin-top: -0.75rem;
+  margin-bottom: 1rem;
+  font-size: 0.85rem;
+  color: #ef4444;
 }
 
-.form-select:focus {
-  border-color: #2d2b3a; /* Nouvelle couleur */
-  outline: none;
-}
-
-textarea.form-control {
-  resize: vertical;
-  min-height: 80px; /* Hauteur réduite */
-}
-
-/* Style des boutons */
+/* Bouton de soumission */
 .btn-primary {
-  background-color: #a385b9; /* Nouvelle couleur */
-  color: #fff;
-  padding: 8px 16px; /* Padding réduit */
+  width: 100%;
+  padding: 1rem;
+  background-color: #6366f1;
+  color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 1rem;
   cursor: pointer;
-  font-size: 14px; /* Taille de police réduite */
-  width: 100%; /* Bouton plein largeur */
+  transition: all 0.2s ease;
+  margin-top: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: #4f46e5;
+  transform: translateY(-1px);
 }
 
 .btn-primary:disabled {
-  background-color: #ccc;
+  background-color: #94a3b8;
   cursor: not-allowed;
+  transform: none;
 }
 
-.btn-primary:hover:not(:disabled) {
-  background-color: #2d2b3a; /* Nouvelle couleur */
-}
-
-/* Style des messages de validation */
+/* Alertes */
 .alert {
-  padding: 8px; /* Padding réduit */
-  margin-top: 15px; /* Espacement réduit */
-  border-radius: 4px;
-  font-size: 14px; /* Taille de police réduite */
-  text-align: center;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1.5rem;
+  font-size: 0.95rem;
 }
 
 .alert-success {
-  background-color: #f7d6e0; /* Nouvelle couleur */
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
 }
 
 .alert-danger {
-  background-color: #f8d7da;
-  color: #721c24;
-  border: 1px solid #f5c6cb;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fca5a5;
 }
 
-/* Style pour les messages d'erreur de validation */
-.invalid-feedback {
-  color: #dc3545;
-  font-size: 12px; /* Taille de police réduite */
-  margin-top: 5px;
+/* Style pour les champs conditionnels */
+div[formGroupName] {
+  background-color: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  border: 1px dashed #e2e8f0;
 }
 
-/* Responsive design */
+/* Style spécifique pour le champ fichier */
+input[type="file"] {
+  padding: 0.5rem;
+  border: 1px dashed #cbd5e1;
+  background-color: white;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
-  .container {
-    padding: 10px;
+  form {
+    padding: 1.5rem;
+    margin: 1rem;
   }
+  
+  .row {
+    flex-direction: column;
+  }
+  
+  .col-md-6 {
+    width: 100%;
+  }
+}
 
-  .content {
-    padding: 15px;
-  }
+/* Animation de chargement */
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
 
-  .form-control, .form-select {
-    font-size: 12px; /* Taille de police réduite pour mobile */
-  }
-
-  .btn-primary {
-    font-size: 12px; /* Taille de police réduite pour mobile */
-  }
+.btn-primary[disabled] {
+  animation: pulse 1.5s infinite;
 }

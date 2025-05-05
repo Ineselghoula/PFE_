@@ -1,0 +1,69 @@
+<div class="events-page">
+  <h1>Nos Événements à Venir</h1>
+
+  <app-search-bar (searchResults)="handleSearchResults($event)"></app-search-bar>
+
+  <div *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Modal (inchangé) -->
+  <div *ngIf="selectedEvent" class="modal-overlay" (click)="closeModal()">
+    <div class="modal-wrapper" (click)="$event.stopPropagation()">
+      <app-reserver-evenement 
+        [event]="selectedEvent"
+        (reservationComplete)="handleReservationComplete($event)"
+        (closeModal)="closeModal()">
+      </app-reserver-evenement>
+    </div>
+  </div>
+
+  <!-- Chargement -->
+  <div *ngIf="isLoading" class="loading">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Liste des événements -->
+  <div *ngIf="!isLoading && groupedEvents.length > 0; else noEvents">
+    <div *ngFor="let group of groupedEvents" class="event-group">
+      <h2 class="group-date">{{ group.date }}</h2>
+      
+      <div class="horizontal-events">
+        <div *ngFor="let event of group.events" class="horizontal-event" (click)="showEventDetails(event)">
+          <div class="event-image-side">
+            <img [src]="'http://localhost:8000/storage/' + event.image" alt="{{ event.titre }}">
+            <div *ngIf="isEventToday(event)" class="today-badge">Aujourd'hui</div>
+          </div>
+          
+          <div class="event-info-side">
+            <h3>{{ event.titre }}</h3>
+            <div class="event-meta">
+              <div class="meta-item">
+                <span class="icon">🕒</span>
+                <span>{{ event.temps }}</span>
+              </div>
+              <div class="meta-item">
+                <span class="icon">📍</span>
+                <span>{{ event.adresse }}</span>
+              </div>
+            </div>
+            
+            <div class="event-actions">
+              <span class="price">{{ event.prix }} TND</span>
+              <span class="places" [class.few-places]="event.nbr_place <= 10">
+                {{ event.nbr_place }} place(s)
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noEvents>
+    <div *ngIf="!isLoading" class="empty-state">
+      <div class="empty-icon">!</div>
+      <p>Aucun événement à venir pour le moment.</p>
+    </div>
+  </ng-template>
+</div>

@@ -14,9 +14,10 @@ class RenameIsApprovedColumnInOrganisateurs extends Migration
     public function up()
     {
         Schema::table('organisateurs', function (Blueprint $table) {
-            $table->renameColumn('`is-approved`', 'is_approved');
+            $table->boolean('is_approved')->default(false);
         });
     }
+    
 
     /**
      * Reverse the migrations.

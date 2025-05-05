@@ -14,9 +14,10 @@ class AddIsApprovedToOrganisateurs extends Migration
     public function up()
     {
         Schema::table('organisateurs', function (Blueprint $table) {
-            $table->boolean('is-approved')->default(false);
+            $table->boolean('is_approved')->default(false);
         });
     }
+    
 
     /**
      * Reverse the migrations.

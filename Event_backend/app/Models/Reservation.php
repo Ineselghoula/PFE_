@@ -9,24 +9,24 @@ class Reservation extends Model
 {
     use HasFactory;
 
-    protected $table = 'reservations'; // Nom de la table
+    protected $table = 'reservations';
 
     protected $fillable = [
         'participant_id',
         'evenement_id',
-        'date_reservation',
-        'nbr_participant'
+        'full_name',
+        'numero_telephone',
+        'email',
+        'quantity',
+        'code_res',
     ];
-
-    public $incrementing = false; // Désactiver l'auto-incrémentation (clé composite)
-    protected $primaryKey = ['participant_id', 'evenement_id']; 
 
     /**
      * Relation avec Participant (Un participant peut avoir plusieurs réservations).
      */
     public function participant()
     {
-        return $this->belongsTo(Participant::class, 'participant_id');
+        return $this->belongsTo(Participant::class);
     }
 
     /**
@@ -34,6 +34,6 @@ class Reservation extends Model
      */
     public function evenement()
     {
-        return $this->belongsTo(Evenement::class, 'evenement_id');
+        return $this->belongsTo(Evenement::class);
     }
 }

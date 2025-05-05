@@ -1,0 +1,58 @@
+
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
+<div class="events-container">
+  <h1>🎉 Mes Événements</h1>
+
+  <!-- État de chargement -->
+  <div *ngIf="isLoading" class="loading-state">
+    <div class="spinner"></div>
+    <span>⏳ Chargement en cours...</span>
+  </div>
+
+  <!-- Message d'erreur -->
+  <div *ngIf="errorMessage" class="error-message">
+    <span class="error-icon">❌</span>
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <!-- État vide -->
+  <div *ngIf="evenements.length === 0 && !isLoading" class="empty-state">
+    <div class="empty-icon">📅</div>
+    <p>Pas d'événements pour le moment !</p>
+  </div>
+
+  <!-- Liste des événements -->
+  <div *ngIf="evenements.length > 0" class="events-grid">
+    <div *ngFor="let event of evenements; let i = index" class="event-card" [style.animation-delay]="i*0.1 + 's'">
+      <div class="event-header">
+        <h2>🎈 {{ event.titre }}</h2>
+        <span class="event-status approved" *ngIf="event.approved == true">✅ Approuvé</span>
+        <span class="event-status rejected" *ngIf="event.approved == false">🕓 En attente</span>
+        
+      </div>
+
+      <div *ngIf="event.image" class="event-image-container">
+        <img [src]="'http://localhost:8000/storage/' + event.image" alt="Image de l'événement" class="event-image">
+      </div>
+
+      <div class="event-details">
+        <div class="detail-item">📅 <strong>Dates:</strong> {{ event.date_debut | date:'dd/MM/yyyy' }} - {{ event.date_fin | date:'dd/MM/yyyy' }}</div>
+        <div class="detail-item">📍 <strong>Lieu:</strong> {{ event.adresse }}</div>
+        <div class="detail-item">💰 <strong>Prix:</strong> {{ event.prix }} TND</div>
+        <div class="detail-item">🎟️ <strong>Places:</strong> {{ event.nbr_place }} disponibles</div>
+      </div>
+
+      <div class="event-description">
+        <p>{{ event.description }}</p>
+      </div>
+
+      <div class="action-buttons">
+        <button (click)="goToUpdateEvent(event.id)">✏️ Modifier</button>
+        <button class="delete-button">🗑️ Supprimer</button>
+      </div>      
+      </div>
+    </div>
+

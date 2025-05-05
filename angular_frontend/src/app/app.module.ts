@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
-import { EventCardComponent } from './event-card-component/event-card-component.component';
 import { WhyChooseUsComponent } from './why-choose-us/why-choose-us.component';
 import { AnimationCarouselComponent } from './animation-carousel/animation-carousel.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';  // ✅ Ajout de ReactiveFormsModule
@@ -18,13 +17,35 @@ import { HomeComponent } from './home/home.component';
 import { ResendCodeComponent } from './resendcode/resendcode.component';
 import { ProfileComponent } from './profile/profile.component';
 import { MatCardModule } from '@angular/material/card';
+import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core'; 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatInputModule } from '@angular/material/input';
+import { CreateEventComponent} from './create-event/create-event.component';
+import { OrganisateurEvenementsComponent } from './organisateur-evenements/organisateur-evenements.component';
+import { UpdateEventComponent } from './update-event/update-event.component';
+import { ShowAllEventsComponent } from './show-all-events/show-all-events.component';
+import { ApproveOrganizersComponent } from './approve-organizers/approve-organizers.component';
+import { ApproveEventsComponent } from './approve-events/approve-events.component';
+import { ReserverEvenementComponent } from './reserver-evenement/reserver-evenement.component';
+import { ReservationListComponent } from './reservation-list/reservation-list.component';
+import { ListeReservationsComponent } from './liste-reservations/liste-reservations.component';
+import { MesReservationsComponent } from './mes-reservations/mes-reservations.component'; 
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
     SearchBarComponent,
-    EventCardComponent,
     WhyChooseUsComponent,
     AnimationCarouselComponent,
     RegisterComponent,
@@ -32,7 +53,20 @@ import { MatCardModule } from '@angular/material/card';
     LoginComponent,
     HomeComponent,
     ResendCodeComponent,
-    ProfileComponent  
+    ProfileComponent,
+    SidebarComponent,
+    EditProfileComponent,
+    CreateEventComponent,
+    OrganisateurEvenementsComponent,
+    UpdateEventComponent,
+    ShowAllEventsComponent,
+    ApproveOrganizersComponent,
+    ApproveEventsComponent,
+    ReserverEvenementComponent,
+    ReservationListComponent,
+    ListeReservationsComponent,
+    MesReservationsComponent,
+  
   ],
   imports: [
     BrowserModule,
@@ -42,6 +76,20 @@ import { MatCardModule } from '@angular/material/card';
     FormsModule,
     ReactiveFormsModule,
     MatCardModule,
+    CommonModule,
+    MatButtonModule,
+    MatIconModule,
+    MatProgressSpinnerModule,
+    MatFormFieldModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSnackBarModule,
+    MatInputModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatSnackBarModule,
+    ReactiveFormsModule,  
+    CommonModule
   ],
   providers: [
     {

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { AuthService } from '../auth.service';
 
 interface UserProfile {
   id: number;
@@ -13,13 +14,11 @@ interface UserProfile {
   actif: boolean;
   date_naissance?: string;
   adresse?: string;
-  // Organisateur
   nom_societe?: string;
   site_web?: string;
   reseau_social?: string;
   biographie?: string;
   is_approved?: boolean;
-  // Admin
   admin_since?: string;
 }
 
@@ -32,7 +31,11 @@ export class ProfileComponent implements OnInit {
   user: UserProfile | null = null;
   apiUrl = 'http://127.0.0.1:8000/api/auth/user/profile';
   token = localStorage.getItem('access_token'); 
-  constructor(private http: HttpClient) {}
+
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService // ✅ Injection ici
+  ) {}
 
   ngOnInit(): void {
     this.getUserProfile();
@@ -56,4 +59,9 @@ export class ProfileComponent implements OnInit {
         }
       );
   }
+
+  logout() {
+    this.authService.performLogout();
+  }
+  
 }

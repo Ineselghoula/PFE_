@@ -1,0 +1,23 @@
+<div class="container mt-4">
+    <h2 class="text-xl font-bold mb-4">Liste des Réservations</h2>
+  
+    <div *ngIf="reservations.length === 0" class="text-gray-500">
+      Aucune réservation trouvée pour cet événement.
+    </div>
+  
+    <div *ngFor="let res of reservations" class="bg-white rounded shadow p-4 mb-4">
+      <h3 class="font-semibold text-lg">{{ res.full_name }}</h3>
+      <p><strong>Email:</strong> {{ res.email }}</p>
+      <p><strong>Téléphone:</strong> {{ res.numero_telephone }}</p>
+      <p><strong>Quantité:</strong> {{ res.quantity }}</p>
+      <p><strong>Code de réservation:</strong> {{ res.code_res }}</p>
+      <p><strong>Date:</strong> {{ res.created_at | date:'short' }}</p>
+  
+      <div class="mt-2 text-sm text-gray-600">
+        <strong>Participant:</strong> {{ res.participant?.adresse }}, né le {{ res.participant?.date_naissance }}
+        <br>
+        <strong>Événement:</strong> {{ res.evenement?.titre }} à {{ res.evenement?.adresse }}
+      </div>
+    </div>
+  </div>
+  

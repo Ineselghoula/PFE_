@@ -1,103 +1,101 @@
-/* Style de base pour la navbar */
 .navbar {
-  background-color: #f5f0f7; /* Couleur de fond */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Ombre légère */
-  padding: 1rem 0; /* Espacement intérieur */
+  background-color: #ffffff;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  padding: 0.8rem 0;
+  position: relative;
+  z-index: 1000;
 }
 
-/* Conteneur pour aligner les éléments */
 .container {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  max-width: 1200px; /* Largeur maximale */
-  margin: 0 auto; /* Centrer le conteneur */
-  padding: 0 20px; /* Espacement latéral */
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-/* Conteneur pour le logo et le nom de l'application */
 .logo-container {
   display: flex;
-  align-items: center; /* Aligner verticalement le logo et le texte */
+  align-items: center;
+  gap: 1.5rem;
 }
 
-/* Style du logo */
+.menu-icon {
+  font-size: 1.5rem;
+  color: #5f6368;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.menu-icon:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #b442ab;
+}
+
 .logo-container img {
-  height: 40px; /* Hauteur du logo */
-  margin-right: 10px; /* Espacement entre le logo et le texte */
+  height: 2.5rem;
 }
 
-/* Style du nom de l'application */
-.logo-container .logo {
-  font-size: 1.5rem; /* Taille de la police */
-  font-weight: bold; /* Gras */
-  color: #333333; /* Couleur du texte */
-  text-decoration: none; /* Supprimer le soulignement */
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #3c4043;
+  text-decoration: none;
 }
 
-/* Style des liens de navigation */
+.user-actions {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.icon-notification, .icon-profile {
+  font-size: 1.3rem;
+  color: #5f6368;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0.5rem;
+  border-radius: 50%;
+}
+
+.icon-notification:hover, .icon-profile:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+  color: #b442ab;
+}
+
 .nav-links {
   display: flex;
-  list-style: none; /* Supprimer les puces */
+  list-style: none;
+  gap: 1.5rem;
   margin: 0;
   padding: 0;
 }
 
-.nav-links li {
-  margin-left: 20px; /* Espacement entre les liens */
-}
-
 .nav-link {
-  text-decoration: none; /* Supprimer le soulignement */
-  color: #333333; /* Couleur du texte */
-  font-size: 1rem; /* Taille de la police */
-  transition: color 0.3s ease; /* Transition de couleur */
+  text-decoration: none;
+  color: #5f6368;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+  padding: 0.5rem 0;
+  position: relative;
 }
 
 .nav-link:hover {
-  color: #1d0210; /* Couleur au survol */
+  color: #b442ab;
 }
 
-/* Style spécifique pour le bouton "S’inscrire" */
 .sign-up {
-  background-color: #310434; /* Couleur de fond */
-  color: #ffffff; /* Couleur du texte */
-  padding: 0.5rem 1rem; /* Espacement intérieur */
-  border-radius: 5px; /* Bordures arrondies */
-  transition: background-color 0.3s ease; /* Transition de couleur */
+  background-color: #b442ab;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
 .sign-up:hover {
-  background-color: #b442ab; /* Couleur au survol */
-}
-
-/* Style pour les icônes utilisateur à droite */
-.user-actions {
-  display: flex;
-  gap: 25px; /* Espacement entre les icônes */
-  align-items: center;
-  margin-left: auto; /* Aligne les icônes à droite */
-  margin-right: 0; /* Assure qu'il n'y a pas d'espacement supplémentaire à droite */
-}
-
-/* Icônes de notification et profil */
-.icon-notification,
-.icon-profile {
-  font-size: 1.5rem; /* Réduire la taille des icônes */
-  color: #333; /* Couleur par défaut */
-  cursor: pointer; /* Pointeur sur survol */
-  transition: color 0.3s ease, transform 0.3s ease; /* Transition douce pour les effets */
-}
-
-/* Effet au survol */
-.icon-notification:hover,
-.icon-profile:hover {
-  color: #b442ab; /* Couleur au survol */
-  transform: scale(1.2); /* Agrandissement au survol */
-}
-
-/* Réduire l'agrandissement au clic */
-.icon-notification:active,
-.icon-profile:active {
-  transform: scale(1); /* Rétablir la taille initiale quand l'icône est pressée */
+  background-color: #9e3a96;
 }

@@ -26,15 +26,17 @@ class CreateEvenementsTable extends Migration
             $table->time('temps');
             $table->string('etat');
             $table->integer('nbr_place');
-            
-            // Define foreign key columns first
+
+            // Clés étrangères
             $table->unsignedBigInteger('organisateur_id');
-            $table->unsignedBigInteger('categorie_id');
-            
-            // Add foreign key constraints
             $table->foreign('organisateur_id')->references('id')->on('organisateurs')->onDelete('cascade');
-            $table->foreign('categorie_id')->references('id')->on('categories')->onDelete('cascade');
-            
+
+            $table->unsignedBigInteger('sous_categorie_id');
+            $table->foreign('sous_categorie_id')->references('id')->on('sous_categories')->onDelete('cascade');
+
+            // Champ d'approbation
+            $table->boolean('approved')->default(false);
+
             $table->timestamps();
         });
     }

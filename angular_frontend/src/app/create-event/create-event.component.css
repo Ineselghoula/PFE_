@@ -1,0 +1,152 @@
+
+
+/* Container formulaire */
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2.5rem;
+  background: rgb(245, 243, 244);
+  border-radius: 8px;
+  box-shadow: 0 4px 16px rgba(109, 90, 134, 0.1);
+  position: relative;
+}
+
+/* Ligne décorative */
+.container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #6d5a86, #a385b9, #f7d6e0);
+}
+
+/* Titre */
+.container h2 {
+  color: #2d2b3a;
+  text-align: left;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  font-weight: 500;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f5f0f7;
+}
+
+/* Formulaire */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.8rem;
+}
+
+/* Groupes */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+/* Labels */
+label {
+  color: #6d5a86;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.3rem;
+}
+
+/* Champs */
+.form-control {
+  width: 100%;
+  padding: 0.6rem 0;
+  border: none;
+  border-bottom: 1px solid #e0d0e0;
+  font-size: 1rem;
+  transition: border 0.2s ease;
+  background-color: rgba(255, 255, 255, 0.7);
+}
+
+.form-control:focus {
+  outline: none;
+  border-bottom: 2px solid #6d5a86;
+  background-color: white;
+}
+
+select.form-control {
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right center;
+  padding-right: 1.5rem;
+}
+
+/* Boutons */
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.btn {
+  padding: 0.8rem 2rem;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #6d5a86;
+  color: white;
+  border: none;
+}
+
+.btn-primary:hover {
+  background: #5d4a76;
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #11a525;
+  color: #fcfcfc;
+  border: none;
+}
+
+/* Messages */
+.error-message {
+  color: #e74c3c;
+  font-size: 0.75rem;
+  margin-top: 0.3rem;
+}
+
+.alert {
+  padding: 0.8rem;
+  background: rgba(245, 240, 247, 0.7);
+  border-left: 3px solid #6d5a86;
+  backdrop-filter: blur(5px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  :host {
+    padding: 1rem;
+    background: #f5f0f7;
+  }
+  
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .btn {
+    width: 100%;
+  }
+}
