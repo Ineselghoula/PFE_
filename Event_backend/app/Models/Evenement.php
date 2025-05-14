@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Evenement extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'titre',
@@ -26,13 +27,28 @@ class Evenement extends Model
         'approved',
     ];
 
+    /**
+     * Relation vers le modèle Organisateur.
+     * L'organisateur est un enregistrement de la table 'organisateurs'.
+     */
     public function organisateur()
     {
-        return $this->belongsTo(User::class, 'organisateur_id');
+        return $this->belongsTo(Organisateur::class, 'organisateur_id');
     }
 
+    /**
+     * Relation vers la sous-catégorie.
+     */
     public function sousCategorie()
     {
         return $this->belongsTo(SousCategorie::class, 'sous_categorie_id');
+    }
+
+    /**
+     * Relation vers les réservations associées à cet événement.
+     */
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class, 'evenement_id');
     }
 }

@@ -1,0 +1,195 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
+<div class="admin-container">
+  <header class="admin-header">
+    <h1 class="admin-title">Tableau de Bord Administrateur</h1>
+    <nav class="admin-nav">
+      <button 
+        (click)="switchTab('dashboard')" 
+        [class.active]="activeTab === 'dashboard'"
+        class="nav-button">
+        <i class="icon-dashboard"></i> Dashboard
+      </button>
+      <button 
+        (click)="switchTab('users')" 
+        [class.active]="activeTab === 'users'"
+        class="nav-button">
+        <i class="icon-users"></i> Utilisateurs
+      </button>
+    </nav>
+  </header>
+
+  <main class="admin-main">
+    <!-- Loading State -->
+    <div *ngIf="loading" class="loading-state">
+      <div class="spinner"></div>
+      <p>Chargement en cours...</p>
+    </div>
+
+    <!-- Error State -->
+    <div *ngIf="error && !loading" class="error-state">
+      <i class="icon-error"></i>
+      <p>{{ error }}</p>
+      <button (click)="activeTab === 'dashboard' ? loadInitialData() : loadUsers()" class="retry-button">
+        Réessayer
+      </button>
+    </div>
+
+    <!-- Dashboard Tab Content -->
+    <div *ngIf="activeTab === 'dashboard' && !loading && !error" class="dashboard-content">
+      <!-- Stats Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="icon-events"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Événements</h3>
+            <p class="stat-value">{{ stats?.total_events || 0 }}</p>
+            <p class="stat-detail">
+              <span class="approved">{{ stats?.approved_events || 0 }}</span> approuvés • 
+              <span class="pending">{{ stats?.pending_events || 0 }}</span> en attente
+            </p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="icon-users"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Utilisateurs</h3>
+            <p class="stat-value">{{ stats?.total_users || 0 }}</p>
+            <p class="stat-detail">
+              <span class="highlight">{{ stats?.new_users_this_week || 0 }}</span> nouveaux (7j)
+            </p>
+          </div>
+        </div>
+        
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="icon-reservations"></i>
+          </div>
+          <div class="stat-content">
+            <h3>Réservations</h3>
+            <p class="stat-value">{{ stats?.total_reservations || 0 }}</p>
+            <p class="stat-detail">
+              Moyenne: {{ stats?.avg_reservations_per_event || 0 | number:'1.1-1' }} par événement
+            </p>
+          </div>
+        </div>
+      </div>
+
+    
+
+      <!-- Content Grid -->
+      <div class="content-grid">
+        <!-- Events to Approve -->
+        <section class="content-card">
+          <div class="card-header">
+            <h2>Événements à Approuver</h2>
+            <span class="badge">{{ eventsToApprove.length }}</span>
+          </div>
+          
+          <div *ngIf="eventsToApprove.length === 0" class="empty-state">
+            <i class="icon-check"></i>
+            <p>Tous les événements sont approuvés</p>
+          </div>
+          
+          <div *ngFor="let event of eventsToApprove" class="event-item">
+            <div class="event-info">
+              <h4 class="event-title">{{ event.titre }}</h4>
+              <p class="event-meta">
+                <span><i class="icon-user"></i> {{ event.organisateur?.user?.first_name }} {{ event.organisateur?.user?.last_name }}</span>
+                <span><i class="icon-calendar"></i> {{ formatDate(event.date_debut) }}</span>
+              </p>
+            </div>
+            <button (click)="approveEvent(event.id)" class="action-button approve">
+              <i class="icon-approve"></i> Approuver
+            </button>
+          </div>
+        </section>
+
+        <!-- Recent Events -->
+        <section class="content-card">
+          <div class="card-header">
+            <h2>Derniers Événements</h2>
+          </div>
+          
+          <div *ngFor="let event of recentEvents" class="event-item">
+            <div class="event-info">
+              <h4 class="event-title">{{ event.titre }}</h4>
+              <p class="event-meta">
+                <span><i class="icon-calendar"></i> {{ formatDate(event.date_debut) }}</span>
+                <span><i class="icon-category"></i> {{ event.sousCategorie?.categorie?.type || 'Non catégorisé' }}</span>
+              </p>
+            </div>
+            <div class="event-status" [class.approved]="event.approved">
+              {{ event.approved ? 'Approuvé' : 'En attente' }}
+            </div>
+          </div>
+        </section>
+
+        <!-- Recent Reservations -->
+        <section *ngIf="recentReservations.length > 0" class="content-card">
+          <div class="card-header">
+            <h2>Dernières Réservations</h2>
+          </div>
+          
+          <div *ngFor="let res of recentReservations" class="reservation-item">
+            <div class="reservation-info">
+              <h4 class="reservation-name">{{ res.full_name }}</h4>
+              <p class="reservation-meta">
+                <span><i class="icon-email"></i> {{ res.email }}</span>
+                <span><i class="icon-event"></i> {{ res.evenement?.titre || 'Événement inconnu' }}</span>
+              </p>
+            </div>
+            <div class="reservation-date">
+              <i class="icon-clock"></i> {{ formatDate(res.created_at) }}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div *ngIf="activeTab === 'users' && !loading && !error" class="users-content">
+      <div class="users-header">
+        <h2>Gestion des Utilisateurs</h2>
+        <div class="users-count">{{ users.length }} utilisateurs</div>
+      </div>
+      
+      <div class="table-container">
+        <table class="users-table">
+          <thead>
+            <tr>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Rôle</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let user of users">
+              <td>
+                <div class="user-name">
+                  <div class="user-avatar">{{ user.first_name?.charAt(0) || '' }}{{ user.last_name?.charAt(0) || '' }}</div>
+                  {{ user.first_name }} {{ user.last_name }}
+                </div>
+              </td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span [class]="'role-badge ' + user.role">
+                  {{ user.role }}
+                </span>
+              </td>
+              <td>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>

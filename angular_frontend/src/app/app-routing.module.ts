@@ -18,6 +18,12 @@ import { ReserverEvenementComponent } from './reserver-evenement/reserver-evenem
 import { ReservationListComponent } from './reservation-list/reservation-list.component';
 import { ListeReservationsComponent } from './liste-reservations/liste-reservations.component';
 import { MesReservationsComponent } from './mes-reservations/mes-reservations.component';
+import { NotificationComponent } from './notification/notification.component';
+import { OrganizatorDashboardComponent } from './organizator-dashboard/organizator-dashboard.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+
+
+
 const routes: Routes = [
   { path: '', component: HomeComponent },  
   { path: 'register', component: RegisterComponent },
@@ -36,6 +42,15 @@ const routes: Routes = [
   { path:'reservation-list/:id', component: ReservationListComponent},
   { path: 'liste-reservations', component: ListeReservationsComponent},
   { path: 'mes-reservations', component: MesReservationsComponent},
+  { path: 'notification', component: NotificationComponent},
+  { path: 'organizator-dashboard', component: OrganizatorDashboardComponent},
+  {path: 'admin-dashboard', component: AdminDashboardComponent},
+
+
+
+ 
+
+
 
 
   { path: '**', redirectTo: '/', pathMatch: 'full' }, 

@@ -13,6 +13,7 @@ export class CreateEventComponent implements OnInit {
   categories: any[] = [];
   sousCategories: any[] = [];
   selectedImage: File | null = null;
+  imagePreview: string | ArrayBuffer | null = null; // Ajout de la propriété pour l'aperçu
   errorMessages: any = {};
   successMessage: string = '';
 
@@ -35,7 +36,7 @@ export class CreateEventComponent implements OnInit {
       temps: ['', Validators.required],
       nbr_place: [0, Validators.required],
       sous_categorie_id: ['', Validators.required],
-      etat: ['Disponible', Validators.required] // ✅ Champ ajouté ici
+      etat: ['Disponible', Validators.required]
     });
 
     this.getCategories();
@@ -56,9 +57,21 @@ export class CreateEventComponent implements OnInit {
       });
   }
 
-  onFileChange(event: any) {
+  onImageChange(event: any) {
     if (event.target.files && event.target.files.length) {
       this.selectedImage = event.target.files[0];
+      
+      // Créer l'aperçu de l'image
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result;
+      };
+      if (this.selectedImage) {
+        reader.readAsDataURL(this.selectedImage);
+      }
+    } else {
+      this.selectedImage = null;
+      this.imagePreview = null;
     }
   }
 
@@ -89,10 +102,11 @@ export class CreateEventComponent implements OnInit {
         this.errorMessages = {};
         this.eventForm.reset();
         this.selectedImage = null;
+        this.imagePreview = null; // Réinitialiser l'aperçu
 
         setTimeout(() => {
           this.router.navigate(['/show-evenement']);
-        });
+        }, 2000);
       },
       error: (err) => {
         if (err.status === 400) {
@@ -108,5 +122,7 @@ export class CreateEventComponent implements OnInit {
     this.router.navigate(['/show-evenement']);
     this.eventForm.reset();
     this.errorMessages = {};
+    this.selectedImage = null;
+    this.imagePreview = null; // Réinitialiser l'aperçu
   }
 }

@@ -22,13 +22,19 @@ export class ShowAllEventsComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    this.today.setHours(0, 0, 0, 0); // Normaliser la date du jour
+    this.today.setHours(0, 0, 0, 0);
   }
 
   ngOnInit(): void {
+    this.checkAuthentication();
     this.loadAllEvents();
   }
 
+  checkAuthentication(): void {
+    this.authService.isAuthenticated$.subscribe(isAuth => {
+      this.isAuthenticated = isAuth;
+    });
+  }
 
   loadAllEvents(): void {
     this.isLoading = true;
@@ -49,18 +55,16 @@ export class ShowAllEventsComponent implements OnInit {
   groupEventsByDate(events: any[]): void {
     const filteredEvents = events.filter(event => {
       const endDate = new Date(event.date_fin);
-      endDate.setHours(23, 59, 59, 999); // Fin de la journée
+      endDate.setHours(23, 59, 59, 999);
       return endDate >= this.today;
     });
 
-    // Trier par date de début (plus proche en premier)
     const sortedEvents = [...filteredEvents].sort((a, b) => {
       const dateA = new Date(a.date_debut).getTime();
       const dateB = new Date(b.date_debut).getTime();
       return dateA - dateB;
     });
 
-    // Grouper par date
     const groupsMap = new Map<string, any[]>();
     
     sortedEvents.forEach(event => {
@@ -71,7 +75,6 @@ export class ShowAllEventsComponent implements OnInit {
       groupsMap.get(dateStr)?.push(event);
     });
 
-    // Convertir en tableau pour le template
     this.groupedEvents = Array.from(groupsMap.entries()).map(([date, events]) => ({
       date,
       events
@@ -82,7 +85,6 @@ export class ShowAllEventsComponent implements OnInit {
     const startDate = new Date(start);
     const endDate = new Date(end);
     
-    // Si même jour
     if (startDate.toDateString() === endDate.toDateString()) {
       return startDate.toLocaleDateString('fr-FR', {
         weekday: 'long',
@@ -92,7 +94,6 @@ export class ShowAllEventsComponent implements OnInit {
       });
     }
     
-    // Si différent jour
     return `Du ${startDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })} 
             au ${endDate.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`;
   }
@@ -113,15 +114,14 @@ export class ShowAllEventsComponent implements OnInit {
   handleSearchResults(results: any[]): void {
     this.searchMode = true;
     this.groupEventsByDate(results);
-    this.errorMessage = results.length === 0 ? "Aucun événement trouvé." : '';
   }
 
   showEventDetails(event: any): void {
-    if (!this.isAuthenticated) {
+    if (this.isAuthenticated) {
+      this.selectedEvent = event;
+    } else {
       this.redirectToLogin();
-      return;
     }
-    this.selectedEvent = event;
   }
 
   handleReservationComplete(result: {success: boolean, remainingPlaces: number}): void {

@@ -1,38 +1,98 @@
-<div class="container">
+<div class="search-container">
   <!-- Alerte si vide -->
-  <div *ngIf="showEmptySearchWarning" class="alert alert-warning" role="alert">
-    Veuillez remplir au moins un champ pour effectuer une recherche.
+  <div *ngIf="showEmptySearchWarning" class="search-alert">
+    <i class="fas fa-exclamation-circle"></i>
+    <span>Veuillez remplir au moins un critère</span>
   </div>
 
-  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-bar">
-    <input type="text" formControlName="titre" placeholder="Rechercher par mot-clé..." class="search-input" />
-
-    <div class="filter">
-      <label for="date_debut">Date début:</label>
-      <input type="date" formControlName="date_debut" id="date_debut" />
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="search-form">
+    <!-- Champ texte -->
+    <div class="search-group">
+      <label class="search-label">Recherche</label>
+      <input 
+        type="text" 
+        class="search-input"
+        formControlName="titre" 
+        placeholder="Nom événement"
+      />
     </div>
 
-    <div class="filter">
-      <label for="date_fin">Date fin:</label>
-      <input type="date" formControlName="date_fin" id="date_fin" />
+    <!-- Date début -->
+    <div class="search-group">
+      <label class="search-label">Date début</label>
+      <input 
+        type="date" 
+        class="search-input"
+        formControlName="date_debut"
+      />
     </div>
 
-    <div class="filter">
-      <label for="categorie">Catégorie:</label>
-      <select id="categorie" formControlName="categorie_id" (change)="onCategoryChange($event)">
+    <!-- Date fin -->
+    <div class="search-group">
+      <label class="search-label">Date fin</label>
+      <input 
+        type="date" 
+        class="search-input"
+        formControlName="date_fin"
+      />
+    </div>
+
+    <!-- Catégorie -->
+    <div class="search-group">
+      <label class="search-label">Catégorie</label>
+      <select 
+        class="search-select"
+        formControlName="categorie_id"
+        (change)="onCategoryChange($event)"
+      >
         <option value="">Toutes</option>
         <option *ngFor="let c of categories" [value]="c.id">{{ c.type }}</option>
       </select>
     </div>
 
-    <div class="filter">
-      <label for="sous_categorie">Sous-catégorie:</label>
-      <select id="sous_categorie" formControlName="sous_categorie_id">
+    <!-- Sous-catégorie -->
+    <div class="search-group">
+      <label class="search-label">Sous-catégorie</label>
+      <select 
+        class="search-select"
+        formControlName="sous_categorie_id"
+        [disabled]="!sousCategories.length"
+      >
         <option value="">Toutes</option>
         <option *ngFor="let sc of sousCategories" [value]="sc.id">{{ sc.sous_categorie }}</option>
       </select>
     </div>
 
-    <button type="submit" class="search-button">Rechercher</button>
+    <!-- Prix min -->
+    <div class="search-group">
+      <label class="search-label">Prix min</label>
+      <input 
+        type="number" 
+        class="search-input"
+        formControlName="prix_min" 
+        min="0" 
+        placeholder="0"
+      />
+    </div>
+
+    <!-- Prix max -->
+    <div class="search-group">
+      <label class="search-label">Prix max</label>
+      <input 
+        type="number" 
+        class="search-input"
+        formControlName="prix_max" 
+        min="0" 
+        placeholder="Max"
+      />
+    </div>
+
+    <!-- Boutons -->
+    <div class="action-buttons">
+  
+      <button type="submit" class="search-button" [disabled]="isLoading">
+        <i class="fas fa-search"></i> Rechercher
+      </button>
+    </div>
   </form>
 </div>

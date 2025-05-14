@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Reservation extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $table = 'reservations';
 
@@ -22,15 +23,24 @@ class Reservation extends Model
     ];
 
     /**
-     * Relation avec Participant (Un participant peut avoir plusieurs réservations).
+     * Relation avec le participant (utilisateur ayant fait la réservation).
      */
     public function participant()
     {
-        return $this->belongsTo(Participant::class);
+        return $this->belongsTo(User::class, 'participant_id');
     }
 
     /**
-     * Relation avec Evenement (Un événement peut avoir plusieurs réservations).
+     * Alias pour accéder au participant sous le nom "user"
+     * (nécessaire si tu utilises $reservation->user ailleurs).
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'participant_id');
+    }
+
+    /**
+     * Relation avec l'événement réservé.
      */
     public function evenement()
     {

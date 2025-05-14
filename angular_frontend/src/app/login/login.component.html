@@ -1,27 +1,66 @@
-<div class="login-container">
-  <h2>Connexion</h2>
-
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input id="email" formControlName="email" type="email" class="form-control" />
-      <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
-        <small class="text-danger">L'email est requis et doit être valide.</small>
+<div class="login-page">
+  <div class="login-background"></div>
+  
+  <div class="login-box">
+    <div class="login-form-container">
+      <div class="login-header">
+        <img src="assets/image/logo_Planova.png" alt="Planova Logo" class="login-logo">
+        <h2 class="login-title">Connexion</h2>
+        <p class="login-subtitle">Accédez à votre espace personnel</p>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="password">Mot de passe</label>
-      <input id="password" formControlName="password" type="password" class="form-control" />
-      <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
-        <small class="text-danger">Le mot de passe est requis et doit comporter au moins 8 caractères.</small>
-      </div>
-    </div>
+      <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <div class="input-container">
+            <input id="email" type="email" formControlName="email" placeholder="Adresse email">
+            <i class="fas fa-envelope input-icon"></i>
+          </div>
+          <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" class="error-text">
+            <i class="fas fa-exclamation-circle"></i> L'email est requis et doit être valide
+          </div>
+        </div>
 
-    <button type="submit" class="btn btn-primary" [disabled]="loginForm.invalid">Se connecter</button>
+        <div class="form-group">
+          <div class="input-container">
+            <input id="password" [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="Mot de passe">
+            <i class="fas fa-lock input-icon"></i>
+            <i class="fas password-toggle" 
+               [class.fa-eye]="!showPassword" 
+               [class.fa-eye-slash]="showPassword"
+               (click)="togglePasswordVisibility()"></i>
+          </div>
+          <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="error-text">
+            <i class="fas fa-exclamation-circle"></i> Le mot de passe est requis (min. 6 caractères)
+          </div>
+        </div>
 
-    <div *ngIf="errorMessage" class="text-danger mt-2">
-      {{ errorMessage }}
+        <div class="form-options">
+          <label class="remember-me">
+            <input type="checkbox" formControlName="rememberMe"> Se souvenir de moi
+          </label>
+          <a href="/forgot-password" class="forgot-password">Mot de passe oublié ?</a>
+        </div>
+
+        <button type="submit" class="login-button" [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="!isLoading">Se connecter</span>
+          <span *ngIf="isLoading" class="loading-animation">
+            <span class="loading-dot"></span>
+            <span class="loading-dot"></span>
+            <span class="loading-dot"></span>
+          </span>
+        </button>
+
+        <div *ngIf="errorMessage" class="error-alert">
+          <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+        </div>
+
+        <div class="signup-link">
+          Nouveau sur Planova ? <a href="/register">Créer un compte</a>
+        </div>
+        <div class="login-footer">
+          <p>© 2025 Planova. Tous droits réservés. <a href="#">Conditions d'utilisation</a> | <a href="#">Politique de confidentialité</a></p>
+        </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>

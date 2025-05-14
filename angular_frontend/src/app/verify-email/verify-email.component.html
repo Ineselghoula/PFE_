@@ -1,14 +1,31 @@
-<form [formGroup]="verifyForm" (ngSubmit)="verifyEmail()">
-  <div>
-    <label for="email">Email :</label>
-    <input id="email" type="email" formControlName="email" />
-  </div>
-  <div>
-    <label for="verification_code">Code de vérification :</label>
-    <input id="verification_code" type="text" formControlName="verification_code" />
-  </div>
-  <button type="submit" [disabled]="verifyForm.invalid">Vérifier</button>
-  <p *ngIf="message" class="success">{{ message }}</p>
-  <p *ngIf="error" class="error">{{ error }}</p>
-</form>
-
+<div class="modal-overlay">
+  <form [formGroup]="verifyForm" (ngSubmit)="verifyEmail()" class="modal-content">
+    <h2>Vérification d'email</h2>
+    
+    <div>
+      <label for="email">Votre email</label>
+      <input id="email" type="email" formControlName="email" placeholder="exemple@email.com" />
+    </div>
+    
+    <div>
+      <label for="verification_code">Code de vérification</label>
+      <div class="input-code">
+        <input id="verification_code" type="text" formControlName="verification_code" 
+               maxlength="4" placeholder="____" />
+      </div>
+      <small>Entrez le code à 4 chiffres reçu par email</small>
+    </div>
+    
+    <button type="submit" [disabled]="verifyForm.invalid">
+      <span *ngIf="!isVerifying">Vérifier</span>
+      <span *ngIf="isVerifying" class="spinner"></span>
+    </button>
+    
+    <p *ngIf="message" class="success">
+      <i class="fas fa-check-circle"></i> {{ message }}
+    </p>
+    <p *ngIf="error" class="error">
+      <i class="fas fa-exclamation-circle"></i> {{ error }}
+    </p>
+  </form>
+</div>

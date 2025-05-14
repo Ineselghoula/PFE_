@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Models\Notification;
 use Carbon\Carbon;
 use App\Notifications\EmailVerificationCode;
 use Illuminate\Validation\ValidationException;
@@ -309,6 +310,15 @@ public function refreshToken(Request $request)
     
             $user->organisateur->update(['is_approved' => true]);
     
+            // ✅ Ajouter une notification après approbation
+            Notification::create([
+                'user_id' => $user->id,
+                'evenement_id' => null,
+                'contenu' => 'Votre compte organisateur a été approuvé. Vous pouvez maintenant créer des événements.',
+                'type' => 'success',
+                'date_envoi' => now(),
+            ]);
+    
             return response()->json(['message' => 'Organisateur approuvé'], 200);
     
         } catch (Exception $e) {
@@ -318,6 +328,7 @@ public function refreshToken(Request $request)
             ], 500);
         }
     }
+    
 
     /**
      * Get user profile

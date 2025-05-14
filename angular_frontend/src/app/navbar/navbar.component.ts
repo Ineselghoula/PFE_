@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
+import { NotificationService } from '../notification.service';
 
 @Component({
   selector: 'app-navbar',
@@ -7,23 +8,33 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
-  isLoggedIn: boolean = true;
+  isLoggedIn: boolean = false;
   isSidebarOpen = false;
+  unreadCount = 0;
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private notificationService: NotificationService
+  ) {}
 
   ngOnInit(): void {
     this.authService.isAuthenticated$.subscribe(status => {
       this.isLoggedIn = status;
+      if (status) {
+        this.loadUnreadCount();
+      }
     });
   }
 
-  onLogout(): void {
-   this.authService.logout();
+  loadUnreadCount(): void {
+   
   }
+
+  onLogout(): void {
+    this.authService.logout();
+  }
+
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
-    console.log('Sidebar is open:', this.isSidebarOpen); 
   }
-  
 }

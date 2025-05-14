@@ -44,7 +44,7 @@
         </div>
 
         <div *ngIf="filteredEvents.length === 0" class="no-events">
-          <img src="assets/images/no-events.svg" alt="Aucun événement">
+          <img src="assets/image/No Event.png" alt="Aucun événement">
           <p>Aucun événement trouvé</p>
         </div>
       </div>
@@ -59,7 +59,7 @@
         </h2>
 
         <div *ngIf="!selectedEventId" class="empty-state">
-          <img src="assets/images/select-event.svg" alt="Sélectionnez un événement">
+          <img src="assets/image/Select.png" alt="Sélectionnez un événement">
           <p>Sélectionnez un événement pour voir les réservations</p>
         </div>
 
@@ -70,7 +70,7 @@
 
         <div *ngIf="selectedEventId && reservations.length === 0 && !reservationsLoading" 
              class="empty-state">
-          <img src="assets/images/no-reservations.svg" alt="Aucune réservation">
+          <img src="assets/image/No.png" alt="Aucune réservation">
           <p>Aucune réservation pour cet événement</p>
         </div>
 

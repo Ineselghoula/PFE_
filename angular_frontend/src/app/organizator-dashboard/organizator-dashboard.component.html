@@ -1,0 +1,201 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
+<div class="dashboard-container">
+  <!-- En-tête du dashboard -->
+  <header class="dashboard-header">
+    <h1>Tableau de Bord Organisateur</h1>
+    <div class="header-actions">
+      <button class="btn btn-refresh" (click)="refreshData()" [disabled]="loading">
+        <i class="fas fa-sync-alt"></i> {{ loading ? 'Chargement...' : 'Actualiser' }}
+      </button>
+    </div>
+  </header>
+
+  <!-- Formulaire de filtres -->
+  <div class="filters-section">
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+     
+    
+
+      <div class="filter-group">
+        <label for="timeframe">Périodicité</label>
+        <select id="timeframe" formControlName="timeframe">
+          <option value="daily">Journalière</option>
+          <option value="weekly">Hebdomadaire</option>
+          <option value="monthly">Mensuelle</option>
+          <option value="yearly">Annuelle</option>
+        </select>
+      </div>
+
+      <div class="filter-actions">
+        <button type="submit" class="btn btn-apply">Appliquer</button>
+        <button type="button" class="btn btn-reset" (click)="resetFilters()">Réinitialiser</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Statistiques principales -->
+  <div *ngIf="!loading && !error; else loadingOrError" class="stats-container">
+    <!-- Carte: Événements totaux -->
+    <div class="stat-card">
+      <div class="stat-icon total">
+        <i class="fas fa-calendar-alt"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ dashboardData?.event_stats?.total_events || 0 }}</h3>
+        <p>Événements Totaux</p>
+      </div>
+    </div>
+
+    <!-- Carte: Événements approuvés -->
+    <div class="stat-card">
+      <div class="stat-icon approved">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ dashboardData?.event_stats?.approved_events || 0 }}</h3>
+        <p>Événements Approuvés</p>
+      </div>
+    </div>
+
+    <!-- Carte: Événements en attente -->
+    <div class="stat-card">
+      <div class="stat-icon pending">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ dashboardData?.event_stats?.pending_events || 0 }}</h3>
+        <p>En Attente</p>
+      </div>
+    </div>
+
+    <!-- Carte: Revenu total -->
+    <div class="stat-card">
+      <div class="stat-icon revenue">
+        <i class="fas fa-money-bill-wave"></i>
+      </div>
+      <div class="stat-info">
+        <h3>{{ dashboardData?.revenue_stats?.total_revenue || 0 | currency:'TND ' }}</h3>
+        <p>Revenu Total</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenu principal -->
+  <div class="main-content">
+    <!-- Section: Événements à venir -->
+    <div class="content-section">
+      <div class="section-header">
+        <h2><i class="fas fa-calendar-day"></i> Événements à Venir</h2>
+        <span class="badge">{{ dashboardData?.upcoming_events?.length || 0 }} événements</span>
+      </div>
+      
+      <div class="events-list">
+        <div *ngFor="let event of dashboardData?.upcoming_events" class="event-card">
+          <div class="event-date">
+            <span class="day">{{ event.date_debut | date:'d' }}</span>
+            <span class="month">{{ event.date_debut | date:'MMM' }}</span>
+          </div>
+          <div class="event-details">
+            <h3>{{ event.titre }}</h3>
+            <p><i class="fas fa-map-marker-alt"></i> {{ event.adresse }}</p>
+            <p><i class="fas fa-clock"></i> {{ event.temps }} - {{ event.nbr_place }} places restantes</p>
+          </div>
+          <div class="event-actions">
+            <span class="badge" [ngClass]="{
+              'badge-success': event.nbr_place > 10,
+              'badge-warning': event.nbr_place <= 10 && event.nbr_place > 0,
+              'badge-danger': event.nbr_place === 0
+            }">
+              {{ event.nbr_place }} places
+            </span>
+          </div>
+        </div>
+        
+        <div *ngIf="!dashboardData?.upcoming_events?.length" class="no-events">
+          <i class="fas fa-calendar-times"></i>
+          <p>Aucun événement à venir cette semaine</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Réservations récentes -->
+    <div class="content-section">
+      <div class="section-header">
+        <h2><i class="fas fa-ticket-alt"></i> Réservations Récentes</h2>
+        <span class="badge">{{ dashboardData?.recent_reservations?.length || 0 }} réservations</span>
+      </div>
+      
+      <div class="reservations-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Nom</th>
+              <th>Téléphone</th>
+              <th>Événement</th>
+              <th>Places</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let res of dashboardData?.recent_reservations">
+              <td><span class="code-badge">{{ res.code_res }}</span></td>
+              <td>{{ res.full_name }}</td>
+              <td>{{ res.numero_telephone }}</td>
+              <td>{{ res.evenement.titre }}</td>
+              <td>{{ res.quantity }}</td>
+              <td>{{ res.created_at | date:'shortDate' }}</td>
+            </tr>
+            <tr *ngIf="!dashboardData?.recent_reservations?.length">
+              <td colspan="6" class="no-data">
+                <i class="fas fa-info-circle"></i> Aucune réservation récente
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Graphiques -->
+  <div class="charts-section">
+    <!-- Graphique: Ventes -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <h2><i class="fas fa-chart-bar"></i> Ventes {{ filterForm.get('timeframe')?.value }}</h2>
+      </div>
+      <div class="chart-wrapper">
+        <canvas #monthlySalesChart></canvas>
+      </div>
+    </div>
+    
+    <!-- Graphique: Catégories -->
+    <div class="chart-container">
+      <div class="chart-header">
+        <h2><i class="fas fa-chart-pie"></i> Répartition par Catégorie</h2>
+      </div>
+      <div class="chart-wrapper">
+        <canvas #categoryChart></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- États de chargement et d'erreur -->
+  <ng-template #loadingOrError>
+    <div class="status-message">
+      <div *ngIf="loading" class="loading-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Chargement des données...</p>
+      </div>
+      
+      <div *ngIf="error" class="error-state">
+        <i class="fas fa-exclamation-triangle"></i>
+        <p>{{ error }}</p>
+        <button class="btn btn-retry" (click)="refreshData()">Réessayer</button>
+      </div>
+    </div>
+  </ng-template>
+</div>

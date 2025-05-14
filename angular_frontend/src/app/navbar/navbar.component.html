@@ -13,7 +13,10 @@
 
     <!-- Icônes utilisateur -->
     <div *ngIf="isLoggedIn" class="user-actions">
-      <i class="fas fa-bell icon-notification"></i>
+      <a routerLink="/notification" class="notification-icon">
+        <i class="fas fa-bell"></i>
+        <span *ngIf="unreadCount > 0" class="notification-badge">{{ unreadCount }}</span>
+      </a>
       <a routerLink="/profile" class="icon-profile">
         <i class="fas fa-user"></i>
       </a>

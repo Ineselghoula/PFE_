@@ -46,9 +46,10 @@ approveOrganizer(userId: string): Observable<any> {
   return this.http.post(`${this.apiUrl}/auth/approve-organizer`, { user_id: userId });
 }
 
-getUnapprovedOrganizers() {
-  return this.http.get('http://localhost:8000/api/unapproved-organizers');
+getUnapprovedOrganizers() : Observable<any[]> {
+  return this.http.get<any[]>('http://localhost:8000/api/unapproved-organizers');
 }
+
 rejectOrganizer(userId: string) {
   return this.http.delete(`http://localhost:8000/api/organizers/${userId}/reject`); 
 }
@@ -90,5 +91,26 @@ cancelReservation(codeRes: string, eventId: number, participantId: number): Obse
       participant_id: participantId.toString()
     }
   });
+}
+deleteEvenement(eventId: number): Observable<any> {
+  return this.http.delete(`${this.apiUrl}/auth/evenements/${eventId}`);
+}
+
+getOrganisateurDashboardStats(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/auth/organisateur/dashboard`);
+}
+
+getSalesData(timeframe: string): Observable<any> {
+  return this.http.get(`${this.apiUrl}/auth/organisateur/sales-data`, {
+    params: { timeframe }
+  });
+}
+
+getOrganisateurDashboard(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/auth/organisateur/dashboard`);
+}
+
+eventPercentageByCategory(): Observable<any> {
+  return this.http.get(`${this.apiUrl}/auth/organisateur/stat`);
 }
 }

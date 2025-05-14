@@ -6,6 +6,8 @@ use App\Http\Controllers\EvenementController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\OrganisateurController;
+
 
 
 // ✅ Routes d'authentification
@@ -30,6 +32,25 @@ Route::prefix('auth')->group(function () {
         Route::get('/organisateur/reservations', [ReservationController::class, 'getReservationsByOrganisateur']);
         Route::get('/organisateur/evenements/{evenement}/reservations', [ReservationController::class, 'getReservationsByEventForOrganisateur']);
         Route::get('/mes-reservations', [ReservationController::class, 'getMyReservations']);
+        Route::delete('/evenements/{id}', [EvenementController::class, 'deleteByOrganisateur']);
+        Route::post('/event-deleted/{id}', [NotificationController::class, 'EventDeletedNotification']);
+         //notification:
+        Route::post('/evenements/{id}', [EvenementController::class, 'update']);
+        Route::get('/user/notifications', [NotificationController::class, 'index']);
+        Route::put('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+        Route::get('/notifications/{id}', [NotificationController::class, 'show']);
+
+
+         Route::get('/dashboard', [AdminController::class, 'dashboardStats']);
+         Route::get('/monthly-stats', [AdminController::class, 'getMonthlyStats']);
+         Route::get('/admin/users', [AdminController::class, 'getAllUsers']);
+
+        Route::get('/organisateur/evenements', [OrganisateurController::class, 'getEvents']);
+        Route::get('/organisateur/dashboard', [OrganisateurController::class, 'dashboardStatistics']);
+        Route::get('/organisateur/sales-data', [OrganisateurController::class, 'getSalesData']);
+
+        Route::get('/organisateur/stat', [OrganisateurController::class, 'eventPercentageByCategory']);
+
 
 
 
@@ -42,7 +63,6 @@ Route::delete('/reservation/annuler', [ReservationController::class, 'annulerRes
 // ✅ Routes pour les événements
 Route::get('/evenements', [EvenementController::class, 'index']);
 Route::get('/evenements/{id}', [EvenementController::class, 'show']);
-Route::post('/evenements/{id}', [EvenementController::class, 'update']);
 Route::delete('/evenements/{id}', [EvenementController::class, 'destroy']);
 Route::get('/evenements-public', [EvenementController::class, 'getPublicEvents']);
 Route::get('/evenements-show', [EvenementController::class, 'showAllEvents']);
@@ -59,15 +79,7 @@ Route::get('/sous-categories/{id}', [EvenementController::class, 'getSousCategor
 Route::get('/sous-categorie/{id}/categorie', [EvenementController::class, 'getCategorieBySousCategorie']); // Catégorie d'une sous-catégorie
 Route::get('/sous-categories', [EvenementController::class, 'getAllSousCategories']); // Récupérer toutes les sous-catégories
 
-// ✅ Routes pour les notifications
-Route::prefix('notifications')->middleware('auth:api')->group(function () {
-    Route::get('/', [NotificationController::class, 'getNotifications']);
-});
 
-// ✅ Routes Admin
-Route::middleware(['auth:api', 'scope:admin'])->group(function () {
-    Route::get('/admin/users', [AdminController::class, 'getAllUsers']);
-});
 
 // ✅ CORS : gestion des requêtes OPTIONS
 Route::options('{any}', function () {
@@ -80,9 +92,6 @@ Route::middleware('auth:api')->delete('/organizers/{user}/reject', [AuthControll
 Route::middleware('auth:api')->get('/events-unapproved', [EvenementController::class, 'getUnapprovedEvents']);
 
 
-
-
-
-
+Route::delete('/evenements/{id}/notify-deletion', [NotificationController::class, 'EventDeletedNotification']);
 
 

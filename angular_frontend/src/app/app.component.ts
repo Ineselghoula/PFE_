@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -30,7 +31,14 @@ export class AppComponent {
           this.router.url.includes('/reservation-list') ||
           this.router.url.includes('/organisateur-reservations')||
           this.router.url.includes('/liste-reservations') ||
-          this.router.url.includes('/mes-reservations')
+          this.router.url.includes('/mes-reservations') ||
+          this.router.url.includes('/notification')||
+          this.router.url.includes('/dashboard')||
+          this.router.url.includes('/organizator-dashboard')||
+          this.router.url.includes('/admin-dashboard')
+
+
+
 
         );
         

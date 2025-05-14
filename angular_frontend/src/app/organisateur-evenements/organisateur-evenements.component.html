@@ -1,10 +1,33 @@
-
 <app-navbar></app-navbar>
 <app-sidebar></app-sidebar>
 
-
 <div class="events-container">
   <h1>🎉 Mes Événements</h1>
+
+  <!-- Barre de recherche et filtres -->
+  <div class="search-filter-container">
+    <div class="search-bar">
+      <input type="text" [(ngModel)]="searchQuery" 
+             (input)="applyFilters()" 
+             placeholder="Rechercher des événements...">
+      <i class="fas fa-search"></i>
+    </div>
+
+    <div class="filters">
+      <select [(ngModel)]="statusFilter" (change)="applyFilters()">
+        <option value="all">Tous les statuts</option>
+        <option value="approved">Approuvés</option>
+        <option value="pending">En attente</option>
+      </select>
+
+      <select [(ngModel)]="sortOption" (change)="applyFilters()">
+        <option value="newest">Plus récents</option>
+        <option value="oldest">Plus anciens</option>
+        <option value="title-asc">Titre (A-Z)</option>
+        <option value="title-desc">Titre (Z-A)</option>
+      </select>
+    </div>
+  </div>
 
   <!-- État de chargement -->
   <div *ngIf="isLoading" class="loading-state">
@@ -19,19 +42,24 @@
   </div>
 
   <!-- État vide -->
-  <div *ngIf="evenements.length === 0 && !isLoading" class="empty-state">
+  <div *ngIf="evenements.length === 0 && !isLoading && !errorMessage" class="empty-state">
     <div class="empty-icon">📅</div>
     <p>Pas d'événements pour le moment !</p>
   </div>
 
+  <!-- Aucun résultat -->
+  <div *ngIf="filteredEvents.length === 0 && evenements.length > 0 && !isLoading" class="no-results">
+    <i class="fas fa-search"></i>
+    <p>Aucun événement ne correspond à vos critères</p>
+  </div>
+
   <!-- Liste des événements -->
-  <div *ngIf="evenements.length > 0" class="events-grid">
-    <div *ngFor="let event of evenements; let i = index" class="event-card" [style.animation-delay]="i*0.1 + 's'">
+  <div *ngIf="filteredEvents.length > 0" class="events-grid">
+    <div *ngFor="let event of filteredEvents; let i = index" class="event-card" [style.animation-delay]="i*0.1 + 's'">
       <div class="event-header">
         <h2>🎈 {{ event.titre }}</h2>
-        <span class="event-status approved" *ngIf="event.approved == true">✅ Approuvé</span>
-        <span class="event-status rejected" *ngIf="event.approved == false">🕓 En attente</span>
-        
+        <span class="event-status approved" *ngIf="event.approved">✅ Approuvé</span>
+        <span class="event-status pending" *ngIf="event.approved == null || event.approved == undefined">🕓 En attente</span>
       </div>
 
       <div *ngIf="event.image" class="event-image-container">
@@ -49,10 +77,20 @@
         <p>{{ event.description }}</p>
       </div>
 
-      <div class="action-buttons">
-        <button (click)="goToUpdateEvent(event.id)">✏️ Modifier</button>
-        <button class="delete-button">🗑️ Supprimer</button>
-      </div>      
+      <div class="event-actions">
+        <a [href]="'https://maps.google.com/?q=' + event.adresse" target="_blank" class="map-button">
+          <i class="fas fa-map-marker-alt"></i> Voir sur carte
+        </a>
+        
+        <div class="action-buttons">
+          <button class="edit-button" (click)="goToUpdateEvent(event.id)">
+            <i class="fas fa-edit"></i> Modifier
+          </button>
+          <button class="delete-button" (click)="deleteEvenement(event.id)">
+            <i class="fas fa-trash-alt"></i> Supprimer
+          </button>
+        </div>
       </div>
     </div>
-
+  </div>
+</div>

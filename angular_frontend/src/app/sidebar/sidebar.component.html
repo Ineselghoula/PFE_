@@ -1,10 +1,16 @@
 <div class="sidebar" [ngClass]="{'open': isOpen}">
   <ul>
+
+
+    
     <li><a routerLink="/home"><i class="fas fa-home"></i> Accueil</a></li>
     <li *ngIf="role === 'organisateur'">
       <a routerLink="/show-evenement"><i class="fas fa-calendar-check"></i> Mes événements</a>
       <a routerLink="/create-event"><i class="fas fa-calendar-alt"></i> Créer un événement</a>
       <a routerLink="/liste-reservations"><i class="fas fa-calendar-alt"></i> liste Resevations</a>
+      <a routerLink="/organizator-dashboard"><i class="fas fa-calendar-alt"></i>Tableau de bord</a>
+
+
 
     </li>
     <li *ngIf="role === 'participant'">
@@ -14,6 +20,8 @@
     <li *ngIf="role === 'admin'">
       <a routerLink="/approve-organizers"><i class="fas fa-calendar-check"></i>Gestion Organisateur</a>
       <a routerLink="/approve-events"><i class="fas fa-calendar-check"></i>Approver Evenement </a>
+      <a routerLink="/admin-dashboard"><i class="fas fa-calendar-alt"></i>Tableau de bord</a>
+
     </li>
 
     <li><a routerLink="/promotions"><i class="fas fa-tags"></i> Promotions</a></li>

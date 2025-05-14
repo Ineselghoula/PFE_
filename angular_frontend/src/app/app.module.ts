@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+// Removed duplicate import of BrowserModule
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -38,6 +38,11 @@ import { ReserverEvenementComponent } from './reserver-evenement/reserver-evenem
 import { ReservationListComponent } from './reservation-list/reservation-list.component';
 import { ListeReservationsComponent } from './liste-reservations/liste-reservations.component';
 import { MesReservationsComponent } from './mes-reservations/mes-reservations.component'; 
+import { BrowserModule } from '@angular/platform-browser';
+import { NotificationComponent } from './notification/notification.component';
+import { OrganizatorDashboardComponent } from './organizator-dashboard/organizator-dashboard.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
+
 
 
 
@@ -66,6 +71,10 @@ import { MesReservationsComponent } from './mes-reservations/mes-reservations.co
     ReservationListComponent,
     ListeReservationsComponent,
     MesReservationsComponent,
+    NotificationComponent,
+    OrganizatorDashboardComponent,
+    AdminDashboardComponent,
+
   
   ],
   imports: [
@@ -85,16 +94,14 @@ import { MesReservationsComponent } from './mes-reservations/mes-reservations.co
     MatNativeDateModule,
     MatSnackBarModule,
     MatInputModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatSnackBarModule,
-    ReactiveFormsModule,  
-    CommonModule
+
+
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
+
       multi: true,
     },
   ],

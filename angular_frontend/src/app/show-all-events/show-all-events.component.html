@@ -1,13 +1,14 @@
 <div class="events-page">
   <h1>Nos Événements à Venir</h1>
 
+  <!-- La balise app-search-bar reste mais son style est géré par son propre composant -->
   <app-search-bar (searchResults)="handleSearchResults($event)"></app-search-bar>
 
   <div *ngIf="errorMessage" class="error-message">
     {{ errorMessage }}
   </div>
 
-  <!-- Modal (inchangé) -->
+  <!-- Modal -->
   <div *ngIf="selectedEvent" class="modal-overlay" (click)="closeModal()">
     <div class="modal-wrapper" (click)="$event.stopPropagation()">
       <app-reserver-evenement 
@@ -40,7 +41,7 @@
             <div class="event-meta">
               <div class="meta-item">
                 <span class="icon">🕒</span>
-                <span>{{ event.temps }}</span>
+                <span>{{ event.heure_debut }} - {{ event.heure_fin }}</span>
               </div>
               <div class="meta-item">
                 <span class="icon">📍</span>

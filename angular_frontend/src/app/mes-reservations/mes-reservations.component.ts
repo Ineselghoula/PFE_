@@ -26,7 +26,7 @@ interface Reservation {
 })
 export class MesReservationsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
-  
+
   // State management
   state = {
     loading: true,
@@ -61,16 +61,16 @@ export class MesReservationsComponent implements OnInit, OnDestroy {
         finalize(() => this.setState({ loading: false }))
       )
       .subscribe({
-        next: (response: any) => {
-          this.reservations = response.data || response;
+        next: (response: { data: Reservation[] }) => {
+          this.reservations = response.data || [];
         },
         error: (err: any) => this.handleError(err)
       });
   }
 
   // UI helpers
-  onImageError(event: MouseEvent): void {
-    (event.target as HTMLImageElement).src = '/assets/placeholder-event.jpg';
+  onImageError(event: Event & { target: HTMLImageElement }): void {
+    event.target.src = '/assets/placeholder-event.jpg';
   }
 
   canCancelReservation(eventDate: string): boolean {
@@ -78,6 +78,20 @@ export class MesReservationsComponent implements OnInit, OnDestroy {
     const now = new Date().getTime();
     const twentyFourHoursInMs = 24 * 60 * 60 * 1000;
     return (eventDateTime - now) > twentyFourHoursInMs;
+  }
+
+  getEventImage(reservation: Reservation): string {
+    return reservation.evenement?.image
+      ? `http://127.0.0.1:8000/storage/${reservation.evenement.image}`
+      : '/assets/placeholder-event.jpg';
+  }
+
+  isContentReady(): boolean {
+    return !this.state.loading && !this.state.error;
+  }
+
+  trackByReservationId(index: number, reservation: Reservation): number {
+    return reservation.id;
   }
 
   // Reservation actions
@@ -89,7 +103,7 @@ export class MesReservationsComponent implements OnInit, OnDestroy {
   }
 
   cancelReservation(): void {
-    if (!this.state.selectedReservation) return;
+    if (!this.state.selectedReservation || this.state.cancelling) return;
 
     this.setState({ cancelling: true });
 
@@ -98,9 +112,9 @@ export class MesReservationsComponent implements OnInit, OnDestroy {
     this.evenementService.cancelReservation(code_res, evenement_id, participant_id)
       .pipe(
         takeUntil(this.destroy$),
-        finalize(() => this.setState({ 
-          cancelling: false, 
-          showCancelConfirmation: false 
+        finalize(() => this.setState({
+          cancelling: false,
+          showCancelConfirmation: false
         }))
       )
       .subscribe({
@@ -130,7 +144,7 @@ export class MesReservationsComponent implements OnInit, OnDestroy {
   // Error handling
   private handleError(err: any): void {
     let errorMessage = 'Erreur inattendue.';
-    
+
     if (err.error?.message) {
       errorMessage = err.error.message;
     } else if (err.status === 401) {
@@ -142,10 +156,10 @@ export class MesReservationsComponent implements OnInit, OnDestroy {
   }
 
   private handleCancellationSuccess(): void {
-    this.setState({ 
-      successMessage: 'Réservation annulée avec succès' 
+    this.setState({
+      successMessage: 'Réservation annulée avec succès'
     });
-    
+
     setTimeout(() => this.setState({ successMessage: null }), 3000);
     this.loadReservations();
   }

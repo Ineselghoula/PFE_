@@ -121,15 +121,15 @@ export class UpdateEventComponent implements OnInit {
       formData.append('image', this.selectedImage);
     }
 
-    this.http.post(`http://localhost:8000/api/evenements/${this.evenementId}`, formData).subscribe({
+    this.http.post(`http://localhost:8000/api/auth/evenements/${this.evenementId}`, formData).subscribe({
       next: (res: any) => {
         this.successMessage = res.message || 'Événement mis à jour avec succès.';
         this.errorMessages = [];
 
         // Optionnel : délai avant redirection
         setTimeout(() => {
-          this.router.navigate(['/show-evenement']);
-        }, 2000);
+          this.router.navigate(['/show-']);
+        }, );
       },
       error: (err) => {
         if (err.status === 400 && err.error.errors) {

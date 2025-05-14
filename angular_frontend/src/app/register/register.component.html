@@ -1,94 +1,204 @@
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label>Prénom</label>
-      <input class="form-control" formControlName="first_name" />
-      <div *ngIf="registerForm.get('first_name')?.invalid && registerForm.get('first_name')?.touched" class="text-danger">
-        Prénom requis.
+<div class="register-container">
+  <div class="register-card">
+    <div class="register-header">
+      <img src="assets/image/logo_Planova.png" alt="Logo" class="logo">
+      <h2>Créer un compte</h2>
+      <p>Rejoignez notre communauté dès maintenant</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="register-form">
+      <!-- Section Informations de base -->
+      <div class="form-section">
+        <h3><i class="fas fa-user"></i> Informations personnelles</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Prénom <span class="required">*</span></label>
+              <input class="form-control" formControlName="first_name" placeholder="Votre prénom" />
+              <div *ngIf="registerForm.get('first_name')?.invalid && registerForm.get('first_name')?.touched" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Prénom requis
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Nom <span class="required">*</span></label>
+              <input class="form-control" formControlName="last_name" placeholder="Votre nom" />
+              <div *ngIf="registerForm.get('last_name')?.invalid && registerForm.get('last_name')?.touched" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Nom requis
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email <span class="required">*</span></label>
+          <input type="email" class="form-control" formControlName="email" placeholder="exemple@email.com" />
+          <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="error-message">
+            <i class="fas fa-exclamation-circle"></i> 
+            {{ registerForm.get('email')?.errors?.['required'] ? 'Email requis' : 'Format email invalide' }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Téléphone</label>
+          <input class="form-control" formControlName="phone" placeholder="+216 00 000 000" />
+        </div>
       </div>
-    </div>
 
-    <div class="col-md-6">
-      <label>Nom</label>
-      <input class="form-control" formControlName="last_name" />
-      <div *ngIf="registerForm.get('last_name')?.invalid && registerForm.get('last_name')?.touched" class="text-danger">
-        Nom requis.
+      <!-- Section Rôle -->
+      <div class="form-section">
+        <h3><i class="fas fa-user-tag"></i> Type de compte</h3>
+        <div class="form-group">
+          <label>Rôle <span class="required">*</span></label>
+          <div class="role-selector">
+            <div class="role-option" [class.active]="registerForm.get('role')?.value === 'participant'" 
+                 (click)="registerForm.patchValue({role: 'participant'})">
+              <i class="fas fa-user"></i>
+              <span>Participant</span>
+            </div>
+            <div class="role-option" [class.active]="registerForm.get('role')?.value === 'organisateur'" 
+                 (click)="registerForm.patchValue({role: 'organisateur'})">
+              <i class="fas fa-calendar-alt"></i>
+              <span>Organisateur</span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
 
-  <div class="mb-3">
-    <label>Email</label>
-    <input type="email" class="form-control" formControlName="email" />
-    <div *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.invalid" class="text-danger">
-      Email invalide.
-    </div>
-  </div>
+      <!-- Section Organisateur -->
+      <div *ngIf="registerForm.get('role')?.value === 'organisateur'" class="form-section">
+        <h3><i class="fas fa-building"></i> Informations professionnelles</h3>
+        <div class="form-group">
+          <label>Nom de la société</label>
+          <input class="form-control" formControlName="nom_societe" placeholder="Nom de votre entreprise" />
+        </div>
 
-  <div class="mb-3">
-    <label>Téléphone</label>
-    <input class="form-control" formControlName="phone" />
-  </div>
+        <div class="form-group">
+          <label>Site Web</label>
+          <input class="form-control" formControlName="site_web" placeholder="https://votresite.com" />
+        </div>
 
-  <div class="mb-3">
-    <label>Rôle</label>
-    <select class="form-select" formControlName="role">
-      <option value="participant">Participant</option>
-      <option value="organisateur">Organisateur</option>
-    </select>
-  </div>
+        <div class="form-group">
+          <label>Réseau Social</label>
+          <input class="form-control" formControlName="reseau_social" placeholder="Lien vers votre réseau social" />
+        </div>
 
-  <!-- Champs Organisateur -->
-  <div *ngIf="registerForm.get('role')?.value === 'organisateur'" class="mb-3">
-    <label>Nom de la société</label>
-    <input class="form-control" formControlName="nom_societe" />
-
-    <label>Site Web</label>
-    <input class="form-control" formControlName="site_web" />
-
-    <label>Réseau Social</label>
-    <input class="form-control" formControlName="reseau_social" />
-
-    <label>Biographie</label>
-    <textarea class="form-control" formControlName="biographie"></textarea>
-  </div>
-
-  <!-- Champs Participant -->
-  <div *ngIf="registerForm.get('role')?.value === 'participant'" class="mb-3">
-    <label>Date de naissance</label>
-    <input type="date" class="form-control" formControlName="date_naissance" />
-
-    <label>Adresse</label>
-    <input class="form-control" formControlName="adresse" />
-  </div>
-
-  <div class="row mb-3">
-    <div class="col-md-6">
-      <label>Mot de passe</label>
-      <input type="password" class="form-control" formControlName="password" />
-      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['weakPassword']" class="text-danger">
-        Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+        <div class="form-group">
+          <label>Biographie</label>
+          <textarea class="form-control" formControlName="biographie" rows="3" 
+                    placeholder="Décrivez votre organisation..."></textarea>
+        </div>
       </div>
-    </div>
 
-    <div class="col-md-6">
-      <label>Confirmer le mot de passe</label>
-      <input type="password" class="form-control" formControlName="confirmPassword" />
-      <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched" class="text-danger">
-        Les mots de passe ne correspondent pas.
+      <!-- Section Participant -->
+      <div *ngIf="registerForm.get('role')?.value === 'participant'" class="form-section">
+        <h3><i class="fas fa-info-circle"></i> Informations supplémentaires</h3>
+        <div class="form-group">
+          <label>Date de naissance</label>
+          <input type="date" class="form-control" formControlName="date_naissance" />
+        </div>
+
+        <div class="form-group">
+          <label>Adresse</label>
+          <input class="form-control" formControlName="adresse" placeholder="Votre adresse complète" />
+        </div>
       </div>
-    </div>
+
+      <!-- Section Mot de passe -->
+      <div class="form-section">
+        <h3><i class="fas fa-lock"></i> Sécurité</h3>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Mot de passe <span class="required">*</span></label>
+              <div class="password-input">
+                <input [type]="showPassword ? 'text' : 'password'" class="form-control" 
+                       formControlName="password" placeholder="••••••••" />
+                <i class="fas password-toggle" 
+                   [class.fa-eye]="!showPassword" 
+                   [class.fa-eye-slash]="showPassword"
+                   (click)="togglePasswordVisibility()"></i>
+              </div>
+              <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['weakPassword']" 
+                   class="error-message">
+                <i class="fas fa-exclamation-circle"></i> 
+                Le mot de passe doit contenir au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.
+              </div>
+              <div class="password-strength" [class.weak]="passwordStrength === 1" 
+                   [class.medium]="passwordStrength === 2" [class.strong]="passwordStrength === 3">
+                <div class="strength-bar"></div>
+                <div class="strength-label">
+                  {{ passwordStrength === 1 ? 'Faible' : passwordStrength === 2 ? 'Moyen' : 'Fort' }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="form-group">
+              <label>Confirmer le mot de passe <span class="required">*</span></label>
+              <input type="password" class="form-control" formControlName="confirmPassword" placeholder="••••••••" />
+              <div *ngIf="registerForm.errors?.['mismatch'] && registerForm.get('confirmPassword')?.touched" class="error-message">
+                <i class="fas fa-exclamation-circle"></i> Les mots de passe ne correspondent pas
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section Photo de profil -->
+      <div class="form-section">
+        <h3><i class="fas fa-camera"></i> Photo de profil</h3>
+        <div class="form-group">
+          <div class="avatar-upload">
+            <div class="avatar-preview" [style.backgroundImage]="'url(' + (imagePreview || 'assets/image/default-avatar.png') + ')'">
+            </div>
+            <div class="avatar-upload-controls">
+              <label for="avatarUpload" class="btn-upload">
+                <i class="fas fa-cloud-upload-alt"></i> Choisir une image
+              </label>
+              <input id="avatarUpload" type="file" accept="image/*" (change)="onFileChange($event)" />
+              <div class="file-info" *ngIf="selectedImage">
+                {{ selectedImage.name }}
+                <i class="fas fa-times" (click)="removeImage()"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conditions générales -->
+      <div class="form-group terms">
+        <label class="checkbox-container">
+          <input type="checkbox" formControlName="acceptTerms" required />
+          <span class="checkmark"></span>
+          J'accepte les <a href="/terms" target="_blank">conditions générales</a> et la 
+          <a href="/privacy" target="_blank">politique de confidentialité</a>
+        </label>
+        <div *ngIf="registerForm.get('acceptTerms')?.invalid && registerForm.get('acceptTerms')?.touched" class="error-message">
+          <i class="fas fa-exclamation-circle"></i> Vous devez accepter les conditions
+        </div>
+      </div>
+
+      <!-- Bouton de soumission -->
+      <button class="btn-submit" type="submit" [disabled]="registerForm.invalid || isLoading">
+        <span *ngIf="!isLoading">S'inscrire</span>
+        <span *ngIf="isLoading" class="spinner"></span>
+      </button>
+
+      <!-- Messages -->
+      <div *ngIf="successMessage" class="alert success">
+        <i class="fas fa-check-circle"></i> {{ successMessage }}
+      </div>
+      <div *ngIf="errorMessage" class="alert error">
+        <i class="fas fa-exclamation-circle"></i> {{ errorMessage }}
+      </div>
+
+      <div class="login-link">
+        Déjà membre ? <a href="/login">Connectez-vous</a>
+      </div>
+    </form>
   </div>
-
-  <div class="mb-3">
-    <label>Image de profil</label>
-    <input type="file" class="form-control" (change)="onFileChange($event)" />
-  </div>
-
-  <button class="btn btn-primary" type="submit" [disabled]="registerForm.invalid || isLoading">
-    {{ isLoading ? 'Chargement...' : 'S\'inscrire' }}
-  </button>
-
-  <div *ngIf="successMessage" class="alert alert-success mt-3">{{ successMessage }}</div>
-  <div *ngIf="errorMessage" class="alert alert-danger mt-3">{{ errorMessage }}</div>
-</form>
+</div>

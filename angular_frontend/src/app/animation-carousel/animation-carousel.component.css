@@ -1,50 +1,115 @@
-/* Styles pour le carrousel */
-.swiper-container {
-    width: 100%;
-    height: 400px; /* Hauteur du carrousel */
-    border-radius: 10px;
-    overflow: hidden;
-    position: relative;
+/* Conteneur principal */
+.carousel-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+/* Conteneur des slides */
+.carousel {
+  display: flex;
+  height: 400px;
+  position: relative;
+}
+
+/* Slide individuelle */
+.slide {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+}
+
+/* Image dans la slide */
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+/* Contrôles de navigation */
+.carousel-control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.carousel-control:hover {
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+  left: 20px;
+}
+
+.next {
+  right: 20px;
+}
+
+/* Indicateurs */
+.indicators {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+}
+
+.indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.indicators button.active {
+  background: white;
+  transform: scale(1.2);
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.slide.active {
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .carousel {
+    height: 300px;
   }
   
-  .swiper-slide img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+  .carousel-control {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
   }
-  
-  .slide-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.5); /* Fond semi-transparent */
-    color: #ffffff;
-    padding: 20px;
-    text-align: center;
-  }
-  
-  .slide-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 10px;
-  }
-  
-  .slide-content p {
-    font-size: 1rem;
-  }
-  
-  /* Styles pour la pagination et les boutons de navigation */
-  .swiper-pagination-bullet {
-    background: #ffffff;
-    opacity: 0.5;
-  }
-  
-  .swiper-pagination-bullet-active {
-    background: #8E44AD;
-    opacity: 1;
-  }
-  
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: #8E44AD;
-  }
+}

@@ -31,7 +31,6 @@ export class ApproveEventsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erreur lors du chargement des événements', error);
-        this.errorMessage = 'Erreur lors du chargement des événements.';
         this.loading = false;
       }
     });

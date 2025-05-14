@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+<!-- notifications.component.html -->
+<div class="notifications-container">
+  <div class="notifications-header">
+    <h2>Notifications</h2>
+    <div class="notification-actions">
+      <div class="notification-filters">
+        <select class="form-control filter-select" [(ngModel)]="currentFilter" (change)="applyFilter()">
+          <option value="all">Toutes les notifications</option>
+          <option value="unread">Non lues</option>
+          <option value="events">Événements</option>
+          <option value="alerts">Alertes</option>
+          <option value="system">Système</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <div *ngIf="filteredNotifications.length > 0; else noNotifications" class="notification-list">
+    <div *ngFor="let notification of filteredNotifications" 
+         class="notification-item" 
+         [class.unread]="!notification.read_at"
+         (click)="viewNotificationDetails(notification)">
+      <div class="notification-icon">
+        <i [class]="getNotificationIcon(notification.type)"></i>
+      </div>
+      <div class="notification-content">
+        <div class="notification-header">
+          <span class="notification-type">{{ getNotificationTypeLabel(notification.type) }}</span>
+          <span class="notification-time">{{ notification.envoye_le | date:'short' }}</span>
+          <span *ngIf="!notification.read_at" class="badge badge-unread">Nouveau</span>
+        </div>
+        <div class="notification-preview">
+            {{ (notification.name_evenement || notification.contenu || '') | slice:0:50 }}{{ (notification.name_evenement || notification.contenu || '').length > 50 ? '...' : '' }}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noNotifications>
+    <div class="no-notifications">
+      <i class="far fa-bell-slash"></i>
+      <p>Aucune notification à afficher</p>
+    </div>
+  </ng-template>
+
+  <div *ngIf="showDetails && selectedNotification" class="notification-details-overlay">
+    <div class="notification-details">
+      <button class="close-btn" (click)="closeDetails()">
+        <i class="fas fa-times"></i>
+      </button>
+      <div class="notification-details-header">
+        <div class="notification-icon large">
+          <i [class]="getNotificationIcon(selectedNotification.type)"></i>
+        </div>
+        <div>
+          <h3>{{ selectedNotification.name_evenement || 'Notification' }}</h3>
+          <div class="notification-meta">
+            <span class="type">{{ getNotificationTypeLabel(selectedNotification.type) }}</span>
+            <span class="time">{{ selectedNotification.envoye_le | date:'medium' }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="notification-content-details">
+        <p>{{ selectedNotification.contenu }}</p>
+      </div>
+      <div *ngIf="selectedNotification.evenement_id" class="notification-actions">
+        <button class="btn btn-primary">
+          <i class="fas fa-calendar-alt"></i> Voir l'événement
+        </button>
+      </div>
+    </div> 
+  </div>
+</div>

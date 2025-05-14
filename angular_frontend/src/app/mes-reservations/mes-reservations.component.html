@@ -1,3 +1,8 @@
+<app-navbar></app-navbar>
+<app-sidebar></app-sidebar>
+
+
+
 <div class="container py-4">
   <!-- State messages -->
   <div *ngIf="state.successMessage" class="alert alert-success alert-dismissible fade show">
@@ -20,14 +25,13 @@
   </div>
 
   <!-- Content -->
-  <ng-container *ngIf="!state.loading && !state.error">
+  <ng-container *ngIf="isContentReady()">
     <div *ngIf="reservations.length > 0; else noReservations">
-      <div *ngFor="let reservation of reservations" class="card mb-4">
+      <div *ngFor="let reservation of reservations; trackBy: trackByReservationId" class="card mb-4">
         <div class="card-body">
           <div class="row">
             <div class="col-md-3">
-              <img [src]="'http://127.0.0.1:8000/storage/' + reservation.evenement.image"
-                   (error)="onImageError($event)"
+              <img [src]="getEventImage(reservation)"
                    class="img-fluid rounded"
                    [alt]="reservation.evenement.titre">
             </div>
@@ -60,22 +64,24 @@
 </div>
 
 <!-- Cancel confirmation modal -->
-<div class="modal fade" [class.show]="state.showCancelConfirmation" *ngIf="state.showCancelConfirmation">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Confirmer l'annulation</h5>
-        <button type="button" class="btn-close" (click)="closeModal()"></button>
-      </div>
-      <div class="modal-body">
-        <p>Voulez-vous vraiment annuler la réservation <strong>{{ state.selectedReservation?.code_res }}</strong> ?</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Non</button>
-        <button type="button" class="btn btn-danger" (click)="cancelReservation()" [disabled]="state.cancelling">
-          <span *ngIf="state.cancelling" class="spinner-border spinner-border-sm me-1"></span>
-          Oui, annuler
-        </button>
+<div *ngIf="state.showCancelConfirmation">
+  <div class="modal fade show d-block" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirmer l'annulation</h5>
+          <button type="button" class="btn-close" (click)="closeModal()"></button>
+        </div>
+        <div class="modal-body">
+          <p>Voulez-vous vraiment annuler la réservation <strong>{{ state.selectedReservation?.code_res }}</strong> ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Non</button>
+          <button type="button" class="btn btn-danger" (click)="cancelReservation()" [disabled]="state.cancelling">
+            <span *ngIf="state.cancelling" class="spinner-border spinner-border-sm me-1"></span>
+            Oui, annuler
+          </button>
+        </div>
       </div>
     </div>
   </div>

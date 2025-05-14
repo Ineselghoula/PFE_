@@ -15,12 +15,6 @@ h1 {
   color: #2d3748;
 }
 
-/* ============ SEARCH BAR ============ */
-.search-container {
-  margin: 0 auto 2rem;
-  max-width: 600px;
-}
-
 /* ============ ERROR MESSAGE ============ */
 .error-message {
   background: #fff5f5;
@@ -81,7 +75,8 @@ h1 {
   overflow: hidden;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
-  height: 180px;
+  height: 200px;
+  cursor: pointer;
 }
 
 .horizontal-event:hover {
